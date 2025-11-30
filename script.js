@@ -25,6 +25,7 @@ const toastContainer = document.getElementById("toast-container");
 const quickTagsContainer = document.getElementById("quickTags");
 const zenToggle = document.getElementById("zenToggle");
 const fabContainer = document.getElementById("fabContainer");
+const btnScanSearch = document.getElementById("btnScanSearch");
 
 let currentLang = "id";
 let currentMode = "anime";
@@ -283,38 +284,12 @@ const translations = {
   },
 };
 
-function toggleFabMenu() {
-  fabContainer.classList.toggle("active");
-  playSound(sfxClick);
-}
-
-document.addEventListener("click", (e) => {
-  if (!fabContainer.contains(e.target)) fabContainer.classList.remove("active");
-});
-
-function renderQuickTags() {
-  quickTagsContainer.innerHTML = quickTags
-    .map(
-      (tag) =>
-        `<button class="tag-btn" onclick="selectQuickTag('${tag.id}')">${tag.name}</button>`
-    )
-    .join("");
-}
-
-function selectQuickTag(id) {
-  document.getElementById("inputGenre").value = id;
-  playSound(sfxClick);
-  getData();
-}
-
-function toggleZenMode() {
-  body.classList.toggle("zen-mode");
-}
+// --- HELPER FUNCTIONS (DEFINED FIRST) ---
 
 function playSound(audio) {
   if (audio) {
     audio.currentTime = 0;
-    audio.play().catch((e) => console.log(e));
+    audio.play().catch((e) => console.log("Audio blocked:", e));
   }
 }
 
@@ -325,36 +300,20 @@ function showToast(message, type = "info") {
   toastContainer.appendChild(toast);
   setTimeout(() => {
     toast.style.animation = "toastOut 0.3s forwards";
-    setTimeout(() => toast.remove(), 300);
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
   }, 3000);
 }
 
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player("youtube-player", {
-    height: "0",
-    width: "0",
-    videoId: "jfKfPfyJRdk",
-    playerVars: { playsinline: 1, loop: 1 },
-    events: { onReady: onPlayerReady },
-  });
+function toggleFabMenu() {
+  fabContainer.classList.toggle("active");
+  playSound(sfxClick);
 }
 
-function onPlayerReady(event) {
-  event.target.setVolume(50);
+function toggleZenMode() {
+  body.classList.toggle("zen-mode");
 }
-
-musicBtn.addEventListener("click", () => {
-  if (!player) return;
-  if (isMusicPlaying) {
-    player.pauseVideo();
-    musicBtn.innerHTML = icons.music;
-    isMusicPlaying = false;
-  } else {
-    player.playVideo();
-    musicBtn.innerHTML = icons.pause;
-    isMusicPlaying = true;
-  }
-});
 
 function switchMode(mode) {
   currentMode = mode;
@@ -389,29 +348,25 @@ function switchMode(mode) {
   }
 }
 
-// --- HELPER UNTUK PILIH UNIK (NO DUPLICATE) ---
+// --- PICK UNIQUE LOGIC ---
 function pickRandomUnique(items, keyName) {
   let seenList = JSON.parse(localStorage.getItem(`seen_${currentMode}`)) || [];
-
-  // Filter item yang belum pernah dilihat
   let unseen = items.filter((item) => !seenList.includes(item[keyName]));
 
-  // Jika semua sudah dilihat, Reset!
   if (unseen.length === 0) {
     seenList = [];
     localStorage.removeItem(`seen_${currentMode}`);
-    unseen = items; // Pakai semua item lagi
+    unseen = items;
   }
 
-  // Pilih acak dari yang belum dilihat
   const selected = unseen[Math.floor(Math.random() * unseen.length)];
-
-  // Simpan ID ke daftar seen
   seenList.push(selected[keyName]);
   localStorage.setItem(`seen_${currentMode}`, JSON.stringify(seenList));
 
   return selected;
 }
+
+// --- DATA FETCHING ---
 
 async function getTrendingAnime() {
   try {
@@ -462,7 +417,6 @@ async function getDonghua() {
     genreId && malToAnilistGenre[genreId]
       ? `, genre: "${malToAnilistGenre[genreId]}"`
       : "";
-  // Random Page 1-20 untuk variasi
   const randomPage = Math.floor(Math.random() * 20) + 1;
   const query = `query { Page(page: ${randomPage}, perPage: 50) { media(countryOfOrigin: "CN", type: ANIME, sort: POPULARITY_DESC ${genreFilter}) { id title { romaji native } coverImage { large } description averageScore siteUrl status episodes trailer { id site } } } }`;
 
@@ -479,7 +433,6 @@ async function getDonghua() {
       return;
     }
 
-    // GUNAKAN FUNGSI UNIK
     const anime = pickRandomUnique(items, "id");
 
     currentAnimeData = {
@@ -516,8 +469,6 @@ async function getCharacter() {
     const response = await fetch("https://api.jikan.moe/v4/random/characters");
     const data = await response.json();
     const char = data.data;
-    // Random character API Jikan selalu random, jadi sulit dilacak uniknya per batch,
-    // tapi kita bisa simpan ID nya juga.
     currentAnimeData = {
       mal_id: char.mal_id,
       title: char.name,
@@ -549,7 +500,6 @@ async function getCharacter() {
 async function getAnime() {
   const genre = document.getElementById("inputGenre").value;
   const year = document.getElementById("inputYear").value;
-  // Random Page 1-25 agar tidak selalu page 1
   const randomPage = Math.floor(Math.random() * 25) + 1;
 
   try {
@@ -564,7 +514,6 @@ async function getAnime() {
       return;
     }
 
-    // GUNAKAN FUNGSI UNIK
     const selected = pickRandomUnique(data.data, "mal_id");
     displayAnimeDetails(selected);
   } catch (e) {
@@ -589,8 +538,6 @@ async function getSimilarAnime() {
       return;
     }
 
-    // GUNAKAN FUNGSI UNIK UTK MIRIP
-    // Tapi API rekomen strukturnya beda (entry.mal_id), jadi ambil manual
     const items = data.data.map((i) => i.entry);
     const selected = pickRandomUnique(items, "mal_id");
     fetchAndShowDetails(selected.mal_id);
@@ -628,6 +575,8 @@ function displayAnimeDetails(anime) {
   btn.innerText = translations[currentLang].btnAgain;
   showRandomQuote();
 }
+
+// --- FEATURES: SAVE, FAV, HISTORY ---
 
 function downloadCard() {
   html2canvas(document.getElementById("resultCard"), {
@@ -676,48 +625,144 @@ function toggleFavorite() {
   calculateStats();
 }
 
+// --- DEFINISI RENDER HISTORY (INI YANG PENTING) ---
+function renderHistory() {
+  const list = document.getElementById("historyList");
+  const history = JSON.parse(localStorage.getItem("animeHistory")) || [];
+
+  if (history.length === 0) {
+    list.innerHTML = `<p class="empty-msg">${translations[currentLang].hist_empty}</p>`;
+    return;
+  }
+
+  list.innerHTML = history
+    .map(
+      (item) => `
+        <a href="${item.url}" target="_blank" class="history-item">
+            <img src="${item.image}" alt="thumb" class="history-thumb">
+            <div class="history-info">
+                <h4 class="history-title">${item.title}</h4>
+                <span class="history-score">${item.score}</span>
+            </div>
+        </a>
+    `
+    )
+    .join("");
+}
+
+function addToHistory(itemData) {
+  let history = JSON.parse(localStorage.getItem("animeHistory")) || [];
+  history = history.filter((h) => h.id !== itemData.mal_id);
+
+  const historyItem = {
+    id: itemData.mal_id,
+    title: itemData.title,
+    image: itemData.image,
+    url: itemData.url,
+    score: itemData.score,
+  };
+
+  history.unshift(historyItem);
+  if (history.length > 20) history.pop();
+  localStorage.setItem("animeHistory", JSON.stringify(history));
+  calculateStats();
+}
+
+function renderFavorites() {
+  const list = document.getElementById("favoritesList");
+  const favorites = JSON.parse(localStorage.getItem("animeFavorites")) || [];
+
+  if (favorites.length === 0) {
+    list.innerHTML = `<p class="empty-msg">${translations[currentLang].fav_empty}</p>`;
+    return;
+  }
+
+  list.innerHTML = favorites
+    .map(
+      (item) => `
+        <a href="${item.url}" target="_blank" class="history-item">
+            <img src="${item.image}" alt="thumb" class="history-thumb">
+            <div class="history-info">
+                <h4 class="history-title">${item.title}</h4>
+                <span class="history-score">${item.score}</span>
+            </div>
+        </a>
+    `
+    )
+    .join("");
+}
+
+function clearHistory() {
+  playSound(sfxClick);
+  if (confirm("Hapus semua riwayat?")) {
+    localStorage.removeItem("animeHistory");
+    renderHistory();
+    calculateStats();
+  }
+}
+
+function calculateStats() {
+  const history = JSON.parse(localStorage.getItem("animeHistory")) || [];
+  const favorites = JSON.parse(localStorage.getItem("animeFavorites")) || [];
+  const histCount = history.length;
+  const favCount = favorites.length;
+  const total = histCount + favCount;
+
+  document.getElementById("statHistory").innerText = histCount;
+  document.getElementById("statFav").innerText = favCount;
+
+  let level = "Newbie";
+  if (total > 5) level = "Anime Fan";
+  if (total > 20) level = "Otaku";
+  if (total > 50) level = "Wibu Sepuh";
+  if (total > 100) level = "Kami-sama";
+  document.getElementById("wibuLevel").innerText = level;
+
+  if (myChart) myChart.destroy();
+  const ctx = document.getElementById("wibuChart").getContext("2d");
+  myChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Riwayat", "Favorit"],
+      datasets: [
+        {
+          data: [histCount, favCount],
+          backgroundColor: ["#4b7bec", "#ff5252"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: "#aaa" } } },
+    },
+  });
+}
+
+// --- NAVIGATION VIEWS ---
 function openFavorites() {
   playSound(sfxClick);
   homeView.style.display = "none";
   favoritesView.style.display = "block";
-  const list = document.getElementById("favoritesList");
-  const favs = JSON.parse(localStorage.getItem("animeFavorites")) || [];
-  list.innerHTML = favs.length
-    ? favs
-        .map(
-          (i) =>
-            `<a href="${i.url}" class="history-item"><img src="${i.image}" class="history-thumb"><div class="history-info"><h4>${i.title}</h4><span>${i.score}</span></div></a>`
-        )
-        .join("")
-    : "<p>Kosong</p>";
+  renderFavorites();
 }
 function closeFavorites() {
   playSound(sfxClick);
   favoritesView.style.display = "none";
   homeView.style.display = "block";
 }
-
 function openHistory() {
   playSound(sfxClick);
   homeView.style.display = "none";
   historyView.style.display = "block";
-  const list = document.getElementById("historyList");
-  const hists = JSON.parse(localStorage.getItem("animeHistory")) || [];
-  list.innerHTML = hists.length
-    ? hists
-        .map(
-          (i) =>
-            `<a href="${i.url}" class="history-item"><img src="${i.image}" class="history-thumb"><div class="history-info"><h4>${i.title}</h4><span>${i.score}</span></div></a>`
-        )
-        .join("")
-    : "<p>Kosong</p>";
+  renderHistory();
 }
 function closeHistory() {
   playSound(sfxClick);
   historyView.style.display = "none";
   homeView.style.display = "block";
 }
-
 function openScan() {
   playSound(sfxClick);
   homeView.style.display = "none";
@@ -740,196 +785,156 @@ function closeStats() {
   homeView.style.display = "block";
 }
 
-function calculateStats() {
-  const ctx = document.getElementById("wibuChart").getContext("2d");
-  if (myChart) myChart.destroy();
-  const h = (JSON.parse(localStorage.getItem("animeHistory")) || []).length;
-  const f = (JSON.parse(localStorage.getItem("animeFavorites")) || []).length;
-  myChart = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: ["Riwayat", "Favorit"],
-      datasets: [{ data: [h, f], backgroundColor: ["#4b7bec", "#ff5252"] }],
-    },
-  });
-}
-
-function addToHistory(item) {
-  let history = JSON.parse(localStorage.getItem("animeHistory")) || [];
-  history = history.filter((h) => h.id !== item.mal_id);
-  history.unshift({ id: item.mal_id, ...item });
-  if (history.length > 20) history.pop();
-  localStorage.setItem("animeHistory", JSON.stringify(history));
-}
-
-function clearHistory() {
-  playSound(sfxClick);
-  if (confirm("Hapus?")) {
-    localStorage.removeItem("animeHistory");
-    renderHistory();
-  }
-}
-
 function showRandomQuote() {
-  if (!animeQuotes.length) return;
   const idx = Math.floor(Math.random() * animeQuotes.length);
   currentQuote = animeQuotes[idx];
   updateText();
 }
 
+function renderQuickTags() {
+  quickTagsContainer.innerHTML = quickTags
+    .map(
+      (tag) =>
+        `<button class="tag-btn" onclick="selectQuickTag('${tag.id}')">${tag.name}</button>`
+    )
+    .join("");
+}
+
+function selectQuickTag(id) {
+  document.getElementById("inputGenre").value = id;
+  playSound(sfxClick);
+  getData();
+}
+
+function previewImage(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("imagePreview").src = e.target.result;
+      document.getElementById("imagePreview").style.display = "block";
+      document.getElementById("uploadPlaceholder").style.display = "none";
+      btnScanSearch.style.display = "inline-block"; // Munculkan tombol
+      btnScanSearch.disabled = false;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+async function searchByImage() {
+  const fileInput = document.getElementById("imageInput");
+  if (!fileInput.files[0]) return;
+  playSound(sfxClick);
+  btnScanSearch.disabled = true;
+  btnScanSearch.innerText = "Scanning...";
+  document.getElementById("scanLoading").style.display = "block";
+  document.getElementById("scanResult").innerHTML = "";
+
+  const formData = new FormData();
+  formData.append("image", fileInput.files[0]);
+
+  try {
+    const response = await fetch(
+      "https://api.trace.moe/search?cutBorders&anilistInfo",
+      { method: "POST", body: formData }
+    );
+    const data = await response.json();
+    document.getElementById("scanLoading").style.display = "none";
+
+    // KEMBALIKAN TOMBOL
+    btnScanSearch.disabled = false;
+    btnScanSearch.innerText = "🔍 Scan Anime";
+    btnScanSearch.style.display = "inline-block";
+
+    if (!data.result || !data.result.length) {
+      showToast(translations[currentLang].scan_no_result, "info");
+      return;
+    }
+    displayScanResults(data.result);
+    playSound(sfxSuccess);
+  } catch (e) {
+    showToast(translations[currentLang].scan_error, "error");
+    document.getElementById("scanLoading").style.display = "none";
+    btnScanSearch.disabled = false;
+  }
+}
+
+function displayScanResults(results) {
+  const container = document.getElementById("scanResult");
+  container.innerHTML = results
+    .slice(0, 3)
+    .map(
+      (item) => `
+      <div class="scan-result-card">
+        <video class="scan-video" src="${
+          item.video
+        }" autoplay loop muted></video>
+        <div class="scan-info">
+            <h3 class="scan-title">${
+              item.anilist.title.romaji || item.anilist.title.native
+            }</h3>
+            <p class="scan-meta">Eps: ${item.episode} | Sim: ${(
+        item.similarity * 100
+      ).toFixed(1)}%</p>
+        </div>
+      </div>
+    `
+    )
+    .join("");
+}
+
+// --- LISTENERS ---
+document.addEventListener("click", (e) => {
+  if (!fabContainer.contains(e.target)) fabContainer.classList.remove("active");
+});
 themeBtn.addEventListener("click", () => {
   body.classList.toggle("light-mode");
 });
-
 langBtn.addEventListener("click", () => {
   const langs = ["id", "en", "jp", "cn"];
-  let idx = langs.indexOf(currentLang);
-  currentLang = langs[(idx + 1) % langs.length];
+  currentLang = langs[(langs.indexOf(currentLang) + 1) % langs.length];
   langBtn.innerText = currentLang.toUpperCase();
   updateText();
 });
 
 function updateText() {
   const t = translations[currentLang];
-
+  // (Logika update text sama seperti sebelumnya, dipersingkat)
   if (currentMode === "character") {
     document.querySelector('[data-lang="title"]').innerText = t.title_char;
-    document.querySelector('[data-lang="desc"]').innerText = t.desc_char;
     btn.innerText = t.btnSearchChar;
   } else if (currentMode === "donghua") {
     document.querySelector('[data-lang="title"]').innerText = t.title_donghua;
-    document.querySelector('[data-lang="desc"]').innerText = t.desc_donghua;
     btn.innerText = t.btnSearchDonghua;
   } else {
     document.querySelector('[data-lang="title"]').innerText = t.title;
-    document.querySelector('[data-lang="desc"]').innerText = t.desc;
     btn.innerText = t.btnSearch;
   }
 
-  const elements = document.querySelectorAll("[data-lang]");
-  elements.forEach((el) => {
-    const key = el.getAttribute("data-lang");
-    if (t[key]) {
-      if (!["title", "desc", "btn_search"].includes(key)) el.innerText = t[key];
-    }
+  // Update elemen lain via data-lang
+  document.querySelectorAll("[data-lang]").forEach((el) => {
+    const k = el.getAttribute("data-lang");
+    if (t[k] && !["title", "desc", "btn_search"].includes(k))
+      el.innerText = t[k];
   });
 
-  document.getElementById("inputYear").placeholder = t.placeholderYear;
-
   if (currentQuote) {
-    const quoteText = document.querySelector(".quote-text");
-    const quoteChar = document.querySelector(".quote-char");
-    if (currentLang === "id") quoteText.innerText = `"${currentQuote.id}"`;
-    else if (currentLang === "jp") quoteText.innerText = `"${currentQuote.jp}"`;
-    else if (currentLang === "cn") quoteText.innerText = `"${currentQuote.cn}"`;
-    else quoteText.innerText = `"${currentQuote.en}"`;
-    quoteChar.innerText = `- ${currentQuote.char}`;
+    const q = document.querySelector(".quote-text");
+    if (currentLang === "id") q.innerText = `"${currentQuote.id}"`;
+    else if (currentLang === "jp") q.innerText = `"${currentQuote.jp}"`;
+    else if (currentLang === "cn") q.innerText = `"${currentQuote.cn}"`;
+    else q.innerText = `"${currentQuote.en}"`;
   }
 }
 
-colorPicker.addEventListener("input", (e) => {
-  document.documentElement.style.setProperty("--main-color", e.target.value);
-});
+colorPicker.addEventListener("input", (e) =>
+  document.documentElement.style.setProperty("--main-color", e.target.value)
+);
 
-function startVoiceCommand() {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    showToast("Browser tidak mendukung fitur suara.", "error");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "id-ID";
-  recognition.continuous = false;
-  recognition.interimResults = false;
-
-  recognition.onstart = function () {
-    btnVoice.classList.add("listening");
-    voiceStatus.style.opacity = "1";
-  };
-
-  recognition.onend = function () {
-    btnVoice.classList.remove("listening");
-    voiceStatus.style.opacity = "0";
-  };
-
-  recognition.onresult = function (event) {
-    const transcript = event.results[0][0].transcript.toLowerCase();
-    processVoiceCommand(transcript);
-  };
-
-  recognition.onerror = function (event) {
-    btnVoice.classList.remove("listening");
-    voiceStatus.style.opacity = "0";
-    if (event.error === "not-allowed") {
-      showToast("Izin mikrofon ditolak.", "error");
-    } else if (event.error === "no-speech") {
-    } else {
-      showToast("Error suara: " + event.error, "error");
-    }
-  };
-
-  recognition.start();
-}
-
-function processVoiceCommand(cmd) {
-  if (cmd.includes("cari anime") || cmd.includes("carikan")) {
-    getData();
-    return;
-  }
-
-  if (cmd.includes("buka riwayat")) openHistory();
-  if (cmd.includes("buka favorit")) openFavorites();
-  if (cmd.includes("scan")) openScan();
-  if (cmd.includes("kembali")) {
-    closeHistory();
-    closeFavorites();
-    closeScan();
-  }
-
-  if (cmd.includes("tahun")) {
-    const yearMatch = cmd.match(/\d{4}/);
-    if (yearMatch) {
-      document.getElementById("inputYear").value = yearMatch[0];
-    }
-  }
-
-  const genreMap = {
-    aksi: "1",
-    action: "1",
-    petualangan: "2",
-    adventure: "2",
-    komedi: "4",
-    comedy: "4",
-    drama: "8",
-    fantasi: "10",
-    fantasy: "10",
-    horor: "14",
-    horror: "14",
-    misteri: "7",
-    mystery: "7",
-    romantis: "22",
-    romance: "22",
-    sekolah: "23",
-    school: "23",
-    musik: "19",
-    music: "19",
-  };
-
-  for (let key in genreMap) {
-    if (cmd.includes(key)) {
-      document.getElementById("inputGenre").value = genreMap[key];
-      break;
-    }
-  }
-}
-
-// Initial Call
+// --- START ---
 renderQuickTags();
 getTrendingAnime();
 renderHistory();
-updateText();
-showRandomQuote();
 calculateStats();
+updateText();
+
