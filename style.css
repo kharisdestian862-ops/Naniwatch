@@ -376,9 +376,12 @@ p {
 
 .anime-poster {
   width: 100%;
-  height: 350px;
-  object-fit: cover;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
   display: block;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0;
 }
 
 .content {
@@ -530,7 +533,7 @@ p {
 
 .fab-items {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 12px;
   opacity: 0;
   visibility: hidden;
@@ -649,8 +652,8 @@ p {
 }
 
 .top-left {
-  position: absolute;
-  left: 100px;
+  position: fixed;
+  left: 90px;
   top: 20px;
 }
 
