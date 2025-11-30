@@ -74,34 +74,74 @@ const icons = {
 };
 
 const animeQuotes = [
+  // Attack on Titan
   {
     id: "Jika kau tidak berjuang, kau tidak bisa menang.",
     en: "If you don't fight, you can't win.",
     jp: "戦わなければ勝てない。",
     cn: "如果你不战斗，你就赢不了。",
-    char: "Eren Yeager (AOT)",
+    char: "Eren Yeager (Attack on Titan)",
   },
+  {
+    id: "Tidak ada yang bisa mengubah apa pun tanpa melepaskan sesuatu.",
+    en: "Nothing can be changed without giving up something.",
+    jp: "何かを変えることができる人間がいるとすれば、その人は大事なものを捨てることができる人だ。",
+    cn: "如果不放弃什么，就无法改变什么。",
+    char: "Armin Arlert (Attack on Titan)",
+  },
+  {
+    id: "Dunia ini kejam, tapi juga sangat indah.",
+    en: "The world is cruel, but also very beautiful.",
+    jp: "世界は残酷だ。そして、とても美しい。",
+    cn: "这个世界很残酷，但也很美丽。",
+    char: "Mikasa Ackerman (Attack on Titan)",
+  },
+
+  // Naruto Series
   {
     id: "Aku tidak akan menarik kembali kata-kataku!",
     en: "I never go back on my word!",
     jp: "俺は自分の言葉を曲げない！",
     cn: "我绝不食言！",
-    char: "Naruto Uzumaki",
+    char: "Naruto Uzumaki (Naruto)",
   },
   {
-    id: "Manusia itu kuat karena bisa mengubah dirinya sendiri.",
-    en: "Human strength lies in the ability to change yourself.",
-    jp: "人間は変われるから強いんだ。",
-    cn: "人类之所以强大，是因为他们能改变自己。",
-    char: "Saitama (One Punch Man)",
+    id: "Orang bodoh yang tahu kebodohannya adalah orang bijak.",
+    en: "A fool who knows he's a fool is wise.",
+    jp: "自分が馬鹿だと知る馬鹿は賢者だ。",
+    cn: "知道自己愚蠢的傻瓜是智者。",
+    char: "Itachi Uchiha (Naruto)",
   },
   {
-    id: "Kehidupan bukan hanya melakukan hal yang menyenangkan.",
-    en: "Life is not just doing things that are fun.",
-    jp: "人生は楽しいことだけじゃない。",
-    cn: "生活不仅仅是做有趣的事。",
-    char: "L (Death Note)",
+    id: "Kau tidak bisa mengubah masa lalu, tapi kau bisa belajar darinya.",
+    en: "You can't change the past, but you can learn from it.",
+    jp: "過去は変えられないが、学ぶことはできる。",
+    cn: "你无法改变过去，但可以从中学习。",
+    char: "Kakashi Hatake (Naruto)",
   },
+  {
+    id: "Mereka yang melanggar aturan adalah sampah, tapi yang mengabaikan teman lebih buruk dari sampah.",
+    en: "Those who break the rules are scum, but those who abandon their friends are worse than scum.",
+    jp: "ルールを破る奴はクズ呼ばわりされる。けどな、仲間を大切にしない奴はそれ以上のクズだ。",
+    cn: "违反规则的人是废物，但抛弃同伴的人比废物更糟。",
+    char: "Obito Uchiha (Naruto)",
+  },
+  {
+    id: "Jangan berhenti ketika kamu lelah. Berhentilah ketika kamu selesai.",
+    en: "Don't stop when you're tired. Stop when you're done.",
+    jp: "疲れた時に止まるな。終わった時に止まれ。",
+    cn: "不要在累的时候停下，要在完成时停下。",
+    char: "Might Guy (Naruto)",
+  },
+  {
+    id: "Orang yang memaafkan diri sendiri dan hanya mengingat kesalahannya akan terluka.",
+    en: "Those who forgive themselves and remember only their mistakes will get hurt.",
+    jp: "自分を許し、自分の過ちだけを覚えている者は傷つく。",
+    cn: "原谅自己却只记得错误的人会受伤。",
+    char: "Nagato (Naruto)",
+  },
+
+  // One Piece
   {
     id: "Orang lemah tidak punya hak untuk memilih cara mati.",
     en: "The weak don't get to decide how they die.",
@@ -111,10 +151,538 @@ const animeQuotes = [
   },
   {
     id: "Mimpi manusia tidak akan pernah berakhir!",
-    en: "People's dreams... never end!",
-    jp: "人の夢は!!! 終わらねェ!!!!",
-    cn: "人的梦想...永远不会结束！",
+    en: "People's dreams never end!",
+    jp: "人の夢は終わらねェ！",
+    cn: "人的梦想永远不会结束！",
     char: "Marshall D. Teach (One Piece)",
+  },
+  {
+    id: "Jatuh tujuh kali, bangkit delapan kali.",
+    en: "Fall down seven times, stand up eight.",
+    jp: "七転び八起き。",
+    cn: "跌倒七次，站起八次。",
+    char: "Roronoa Zoro (One Piece)",
+  },
+  {
+    id: "Jangan pernah melupakan kenapa kau memulai perjalanan ini.",
+    en: "Never forget why you started this journey.",
+    jp: "なぜこの旅を始めたか忘れるな。",
+    cn: "永远不要忘记为什么开始这段旅程。",
+    char: "Monkey D. Luffy (One Piece)",
+  },
+  {
+    id: "Raja Bajak Laut adalah yang paling bebas di laut ini!",
+    en: "The Pirate King is the freest person on the seas!",
+    jp: "海賊王は海で一番自由な奴だ！",
+    cn: "海贼王是海上最自由的人！",
+    char: "Monkey D. Luffy (One Piece)",
+  },
+  {
+    id: "Tidak ada yang namanya kebetulan di dunia ini.",
+    en: "There's no such thing as coincidence in this world.",
+    jp: "この世に偶然なんてものはない。",
+    cn: "这个世界上没有巧合。",
+    char: "Nico Robin (One Piece)",
+  },
+
+  // My Hero Academia
+  {
+    id: "Kau harus menjadi pahlawan dalam hidupmu sendiri.",
+    en: "You have to be the hero of your own story.",
+    jp: "自分の物語の主人公になれ。",
+    cn: "你必须成为自己故事的主角。",
+    char: "All Might (My Hero Academia)",
+  },
+  {
+    id: "Jangan takut dengan kegagalan. Takutlah tidak mencoba.",
+    en: "Don't be afraid of failure. Be afraid of not trying.",
+    jp: "失敗を恐れるな。挑戦しないことを恐れろ。",
+    cn: "不要害怕失败，要害怕不去尝试。",
+    char: "Izuku Midoriya (My Hero Academia)",
+  },
+  {
+    id: "Kau tidak kalah sampai kau berhenti berusaha.",
+    en: "You haven't lost until you stop trying.",
+    jp: "諦めなければ負けじゃない。",
+    cn: "只要不放弃，就没有失败。",
+    char: "Eijiro Kirishima (My Hero Academia)",
+  },
+  {
+    id: "Jika kau merasa tidak bisa menyelamatkan satu orang di depanmu, bagaimana kau bisa jadi pahlawan?",
+    en: "If you can't save one person in front of you, how can you be a hero?",
+    jp: "目の前の一人を救えないで、どうやってヒーローになれる？",
+    cn: "如果你救不了眼前的一个人，怎么能成为英雄？",
+    char: "Shoto Todoroki (My Hero Academia)",
+  },
+
+  // Demon Slayer
+  {
+    id: "Aku ingin menjadi lebih kuat, bukan hanya untuk diriku sendiri.",
+    en: "I want to become stronger, not just for myself.",
+    jp: "強くなりたい。自分のためだけじゃなく。",
+    cn: "我想变强，不仅仅是为了自己。",
+    char: "Tanjiro Kamado (Demon Slayer)",
+  },
+  {
+    id: "Jangan menyerah! Bergeraklah maju! Kau punya kaki yang kuat untuk berdiri!",
+    en: "Don't give up! Move forward! You have strong legs to stand on!",
+    jp: "諦めるな！前に進め！立つための強い足がある！",
+    cn: "不要放弃！向前走！你有坚强的双腿！",
+    char: "Kyojuro Rengoku (Demon Slayer)",
+  },
+  {
+    id: "Lemah bukan masalah. Yang penting adalah tetap berjuang!",
+    en: "Being weak is not a problem. What matters is to keep fighting!",
+    jp: "弱いことは問題じゃない。大事なのは戦い続けることだ！",
+    cn: "软弱不是问题，重要的是继续战斗！",
+    char: "Giyu Tomioka (Demon Slayer)",
+  },
+
+  // Death Note
+  {
+    id: "Kehidupan bukan hanya melakukan hal yang menyenangkan.",
+    en: "Life is not just doing things that are fun.",
+    jp: "人生は楽しいことだけじゃない。",
+    cn: "生活不仅仅是做有趣的事。",
+    char: "L Lawliet (Death Note)",
+  },
+  {
+    id: "Dunia ini busuk dan mereka yang membuatnya busuk layak mati.",
+    en: "This world is rotten and those who make it rotten deserve to die.",
+    jp: "この世界は腐っている。腐らせた奴らは死ぬべきだ。",
+    cn: "这个世界腐败了，让它腐败的人该死。",
+    char: "Light Yagami (Death Note)",
+  },
+
+  // Tokyo Ghoul
+  {
+    id: "Rasa sakit adalah cara terbaik untuk merasa hidup.",
+    en: "Pain is the best way to feel alive.",
+    jp: "痛みは生きている実感だ。",
+    cn: "痛苦是感受活着的最好方式。",
+    char: "Kaneki Ken (Tokyo Ghoul)",
+  },
+  {
+    id: "Semua penderitaan yang kualami akan menjadi kekuatanku.",
+    en: "All the suffering I experienced will become my strength.",
+    jp: "経験した苦しみは全て力になる。",
+    cn: "我经历的所有痛苦都会成为我的力量。",
+    char: "Kaneki Ken (Tokyo Ghoul)",
+  },
+  {
+    id: "Dunia ini salah, tapi itu bukan alasan untuk menyerah.",
+    en: "The world is wrong, but that's not a reason to give up.",
+    jp: "世界は間違っているが、諦める理由にはならない。",
+    cn: "世界是错的，但这不是放弃的理由。",
+    char: "Touka Kirishima (Tokyo Ghoul)",
+  },
+
+  // Fullmetal Alchemist
+  {
+    id: "Hidup adalah tentang menciptakan dirimu sendiri.",
+    en: "Life is about creating yourself.",
+    jp: "人生は自分を創ることだ。",
+    cn: "生活就是创造自己。",
+    char: "Edward Elric (Fullmetal Alchemist)",
+  },
+  {
+    id: "Tidak ada yang sempurna. Dunia ini tidak sempurna, tapi itulah yang membuatnya indah.",
+    en: "Nothing's perfect. The world isn't perfect, but that's what makes it beautiful.",
+    jp: "完璧なものなんてない。世界は不完全だが、だからこそ美しい。",
+    cn: "没有什么是完美的。世界不完美，但这就是美。",
+    char: "Roy Mustang (Fullmetal Alchemist)",
+  },
+  {
+    id: "Manusia tidak bisa mendapatkan sesuatu tanpa mengorbankan sesuatu yang lain.",
+    en: "Humankind cannot gain anything without first giving something in return.",
+    jp: "人は何かの犠牲なしに何も得ることはできない。",
+    cn: "人类不付出代价就得不到任何东西。",
+    char: "Alphonse Elric (Fullmetal Alchemist)",
+  },
+
+  // One Punch Man
+  {
+    id: "Manusia itu kuat karena bisa mengubah dirinya sendiri.",
+    en: "Human strength lies in the ability to change yourself.",
+    jp: "人間は変われるから強いんだ。",
+    cn: "人类之所以强大，是因为他们能改变自己。",
+    char: "Saitama (One Punch Man)",
+  },
+  {
+    id: "Aku jadi pahlawan hanya untuk hobi.",
+    en: "I'm a hero for fun.",
+    jp: "趣味でヒーローをやってる者だ。",
+    cn: "我只是兴趣使然的英雄。",
+    char: "Saitama (One Punch Man)",
+  },
+
+  // Code Geass
+  {
+    id: "Terkadang kau harus melakukan hal yang salah demi hal yang benar.",
+    en: "Sometimes you have to do wrong to do right.",
+    jp: "時には間違ったことをして正しいことをする。",
+    cn: "有时你必须做错事才能做对事。",
+    char: "Lelouch Lamperouge (Code Geass)",
+  },
+  {
+    id: "Orang yang bisa menembakkan senjata adalah orang yang siap ditembak.",
+    en: "Those who shoot must be prepared to be shot.",
+    jp: "撃っていいのは撃たれる覚悟がある奴だけだ。",
+    cn: "只有准备好被射击的人才能开枪。",
+    char: "Lelouch Lamperouge (Code Geass)",
+  },
+
+  // Fairy Tail
+  {
+    id: "Ketakutan bukan kejahatan. Itu memberitahu kamu apa kelemahanmu.",
+    en: "Fear is not evil. It tells you what your weakness is.",
+    jp: "恐怖は悪ではない。弱さを教えてくれる。",
+    cn: "恐惧不是邪恶，它告诉你弱点在哪。",
+    char: "Gildarts Clive (Fairy Tail)",
+  },
+  {
+    id: "Masa depan adalah milik mereka yang percaya pada keindahan impian mereka.",
+    en: "The future belongs to those who believe in the beauty of their dreams.",
+    jp: "未来は夢の美しさを信じる者のものだ。",
+    cn: "未来属于相信梦想之美的人。",
+    char: "Lucy Heartfilia (Fairy Tail)",
+  },
+
+  // Haikyuu!!
+  {
+    id: "Masa lalu itu berharga karena sudah berlalu.",
+    en: "The past is precious because it's over.",
+    jp: "過去は過ぎたからこそ貴重だ。",
+    cn: "过去之所以珍贵，是因为已经过去。",
+    char: "Shoyo Hinata (Haikyuu!!)",
+  },
+  {
+    id: "Kalah atau menang tidak penting. Yang penting adalah kau sudah mencoba yang terbaik.",
+    en: "Winning or losing doesn't matter. What matters is you did your best.",
+    jp: "勝ち負けは関係ない。大事なのは全力を尽くしたかだ。",
+    cn: "输赢不重要，重要的是你尽力了。",
+    char: "Tobio Kageyama (Haikyuu!!)",
+  },
+
+  // Hunter x Hunter
+  {
+    id: "Kau harus menikmati sensasi kecil kehidupan sehari-hari.",
+    en: "You should enjoy the little detours in life.",
+    jp: "人生の小さな寄り道を楽しむべきだ。",
+    cn: "你应该享受生活中的小曲折。",
+    char: "Ging Freecss (Hunter x Hunter)",
+  },
+  {
+    id: "Tidak ada gunanya menyesali apa yang sudah terjadi.",
+    en: "There's no point in regretting what's already happened.",
+    jp: "起こったことを後悔しても意味がない。",
+    cn: "后悔已经发生的事情没有意义。",
+    char: "Killua Zoldyck (Hunter x Hunter)",
+  },
+
+  // Steins;Gate
+  {
+    id: "Orang itu adalah ilmuwan gila, sangat keren!",
+    en: "I am a mad scientist, so cool!",
+    jp: "俺はマッドサイエンティスト、そう、クールなんだ！",
+    cn: "我是疯狂科学家，超酷的！",
+    char: "Okabe Rintarou (Steins;Gate)",
+  },
+
+  // Dr. Stone
+  {
+    id: "Kegagalan adalah kesempatan untuk memulai lagi dengan lebih cerdas.",
+    en: "Failure is a chance to start again more intelligently.",
+    jp: "失敗はより賢く再出発する機会だ。",
+    cn: "失败是更聪明地重新开始的机会。",
+    char: "Senku Ishigami (Dr. Stone)",
+  },
+  {
+    id: "Sains adalah kekuatan yang bisa menyelamatkan dunia!",
+    en: "Science is the power that can save the world!",
+    jp: "科学は世界を救う力だ！",
+    cn: "科学是拯救世界的力量！",
+    char: "Senku Ishigami (Dr. Stone)",
+  },
+
+  // Black Clover
+  {
+    id: "Keajaiban hanya terjadi pada mereka yang tidak pernah menyerah.",
+    en: "Miracles only happen to those who never give up.",
+    jp: "奇跡は諦めない者にだけ起こる。",
+    cn: "奇迹只发生在永不放弃的人身上。",
+    char: "Yuno (Black Clover)",
+  },
+  {
+    id: "Aku tidak akan berhenti sampai aku jadi Wizard King!",
+    en: "I won't stop until I become the Wizard King!",
+    jp: "魔法帝になるまで止まらない！",
+    cn: "我不会停下直到成为魔法帝！",
+    char: "Asta (Black Clover)",
+  },
+
+  // Gintama
+  {
+    id: "Jangan menangis karena sudah berakhir, tersenyumlah karena pernah terjadi.",
+    en: "Don't cry because it's over, smile because it happened.",
+    jp: "終わったから泣くな。起きたから笑え。",
+    cn: "不要因为结束而哭泣，要因为曾经发生而微笑。",
+    char: "Gintoki Sakata (Gintama)",
+  },
+  {
+    id: "Hidup ini seperti sabuk pengaman. Kadang menjengkelkan tapi akan menyelamatkanmu.",
+    en: "Life is like a seatbelt. Sometimes annoying but it will save you.",
+    jp: "人生はシートベルトのようだ。時に邪魔だが命を救う。",
+    cn: "生活就像安全带，有时讨厌但会救你。",
+    char: "Gintoki Sakata (Gintama)",
+  },
+
+  // Gurren Lagann
+  {
+    id: "Tidak ada yang tidak mungkin bagi mereka yang percaya!",
+    en: "Nothing is impossible for those who believe!",
+    jp: "信じる者には不可能はない！",
+    cn: "对于相信的人来说，没有不可能！",
+    char: "Kamina (Gurren Lagann)",
+  },
+  {
+    id: "Bukan bintang yang menjadi tujuanmu, tapi masa depan yang kau ciptakan!",
+    en: "It's not the stars that are your goal, but the future you create!",
+    jp: "目指すのは星じゃない。創る未来だ！",
+    cn: "目标不是星星，而是你创造的未来！",
+    char: "Simon (Gurren Lagann)",
+  },
+
+  // Mob Psycho 100
+  {
+    id: "Jika semua orang itu tidak spesial, mungkin kau bisa jadi pahlawanmu sendiri.",
+    en: "If everyone is not special, maybe you can be your own hero.",
+    jp: "みんなが特別じゃないなら、自分のヒーローになれるかもしれない。",
+    cn: "如果每个人都不特别，也许你可以成为自己的英雄。",
+    char: "Reigen Arataka (Mob Psycho 100)",
+  },
+  {
+    id: "Hidup bukan tentang menjadi yang terbaik, tapi menjadi lebih baik.",
+    en: "Life is not about being the best, but being better.",
+    jp: "人生は最高になることじゃなく、より良くなることだ。",
+    cn: "生活不是成为最好的，而是变得更好。",
+    char: "Shigeo Kageyama (Mob Psycho 100)",
+  },
+
+  // Assassination Classroom
+  {
+    id: "Kelemahan bukan masalah selama kau terus berusaha memperbaikinya.",
+    en: "Weakness is not a problem as long as you keep trying to improve.",
+    jp: "弱点は改善し続ける限り問題じゃない。",
+    cn: "只要不断努力改进，弱点就不是问题。",
+    char: "Koro-sensei (Assassination Classroom)",
+  },
+  {
+    id: "Masa depan milik mereka yang mempersiapkannya hari ini.",
+    en: "The future belongs to those who prepare for it today.",
+    jp: "未来は今日準備する者のものだ。",
+    cn: "未来属于今天准备的人。",
+    char: "Koro-sensei (Assassination Classroom)",
+  },
+
+  // Sword Art Online
+  {
+    id: "Dalam dunia virtual atau nyata, apa yang penting adalah kau hidup.",
+    en: "In virtual or real world, what matters is that you live.",
+    jp: "仮想でも現実でも、大事なのは生きることだ。",
+    cn: "无论虚拟还是现实，重要的是你活着。",
+    char: "Kirito (Sword Art Online)",
+  },
+  {
+    id: "Jika kau takut mati, kau tidak akan pernah hidup.",
+    en: "If you're afraid to die, you'll never truly live.",
+    jp: "死ぬのが怖ければ、本当に生きることはできない。",
+    cn: "如果你害怕死亡，你就永远无法真正活着。",
+    char: "Asuna Yuuki (Sword Art Online)",
+  },
+
+  // Re:Zero
+  {
+    id: "Bahkan jika kau gagal berkali-kali, kau harus terus maju.",
+    en: "Even if you fail many times, you must keep moving forward.",
+    jp: "何度失敗しても前に進み続けなければならない。",
+    cn: "即使失败多次，也必须继续前进。",
+    char: "Subaru Natsuki (Re:Zero)",
+  },
+  {
+    id: "Aku mencintaimu karena kau menyelamatkanku dari kegelapan.",
+    en: "I love you because you saved me from darkness.",
+    jp: "闇から救ってくれたから愛してる。",
+    cn: "我爱你因为你把我从黑暗中拯救出来。",
+    char: "Emilia (Re:Zero)",
+  },
+
+  // Bleach
+  {
+    id: "Kami tidak bermain dengan takdir, kami adalah takdir.",
+    en: "We don't play with destiny, we are destiny.",
+    jp: "運命で遊んでいるのではない。我々が運命だ。",
+    cn: "我们不是在玩弄命运，我们就是命运。",
+    char: "Ichigo Kurosaki (Bleach)",
+  },
+  {
+    id: "Jika nasib adalah batu gerinda, maka hidupku adalah pisau.",
+    en: "If fate is a millstone, then my life is the blade.",
+    jp: "運命が砥石なら、俺の人生は刃だ。",
+    cn: "如果命运是磨刀石，那我的人生就是刀刃。",
+    char: "Ichigo Kurosaki (Bleach)",
+  },
+
+  // Dragon Ball
+  {
+    id: "Kekuatan datang dari kebutuhan, bukan keinginan.",
+    en: "Strength comes from need, not desire.",
+    jp: "力は欲望ではなく必要から生まれる。",
+    cn: "力量来自需要，而不是欲望。",
+    char: "Goku (Dragon Ball)",
+  },
+  {
+    id: "Bukan seberapa keras kau memukul, tapi seberapa keras kau bisa dipukul dan tetap maju.",
+    en: "It's not how hard you hit, but how hard you can get hit and keep moving forward.",
+    jp: "どれだけ強く打つかではなく、どれだけ打たれても前に進めるかだ。",
+    cn: "不是你能打多重，而是你能挨多重还能继续前进。",
+    char: "Vegeta (Dragon Ball)",
+  },
+
+  // Cowboy Bebop
+  {
+    id: "Aku bukan hidup di masa lalu atau masa depan. Aku hanya hidup di saat ini.",
+    en: "I'm not living in the past or future. I'm just living in the present.",
+    jp: "過去や未来に生きているのではない。今を生きているだけだ。",
+    cn: "我不活在过去或未来，我只活在当下。",
+    char: "Spike Spiegel (Cowboy Bebop)",
+  },
+  {
+    id: "Apa yang terjadi, terjadilah. Masa lalu tidak bisa diubah.",
+    en: "Whatever happens, happens. The past cannot be changed.",
+    jp: "起こることは起こる。過去は変えられない。",
+    cn: "发生的就发生了，过去无法改变。",
+    char: "Spike Spiegel (Cowboy Bebop)",
+  },
+
+  // JoJo's Bizarre Adventure
+  {
+    id: "Kau pikir kau bisa mengalahkanku hanya dengan kekuatan? Kau salah besar!",
+    en: "You think you can defeat me with just strength? You're dead wrong!",
+    jp: "力だけで俺を倒せると思うのか？大間違いだ！",
+    cn: "你以为只靠力量就能打败我？大错特错！",
+    char: "Jotaro Kujo (JoJo)",
+  },
+  {
+    id: "Aku menolak takdirku. Aku akan menciptakan masa depanku sendiri!",
+    en: "I reject my fate. I will create my own future!",
+    jp: "運命を拒否する。自分の未来を創る！",
+    cn: "我拒绝命运，我要创造自己的未来！",
+    char: "Giorno Giovanna (JoJo)",
+  },
+
+  // Neon Genesis Evangelion
+  {
+    id: "Selama kau hidup, akan selalu ada kesempatan untuk bahagia.",
+    en: "As long as you live, there will always be a chance to be happy.",
+    jp: "生きている限り、幸せになるチャンスは常にある。",
+    cn: "只要活着，就总有机会幸福。",
+    char: "Misato Katsuragi (Evangelion)",
+  },
+
+  // Vinland Saga
+  {
+    id: "Kau tidak punya musuh. Tidak ada yang punya musuh.",
+    en: "You have no enemies. No one has enemies.",
+    jp: "お前に敵はいない。誰にも敵はいない。",
+    cn: "你没有敌人，谁都没有敌人。",
+    char: "Thors (Vinland Saga)",
+  },
+  {
+    id: "Seorang prajurit sejati tidak membutuhkan pedang.",
+    en: "A true warrior doesn't need a sword.",
+    jp: "真の戦士は剣を必要としない。",
+    cn: "真正的战士不需要剑。",
+    char: "Thorfinn (Vinland Saga)",
+  },
+
+  // Anohana
+  {
+    id: "Kita harus mengucapkan selamat tinggal pada seseorang yang kita cintai.",
+    en: "We have to say goodbye to someone we love.",
+    jp: "愛する人に別れを告げなければならない。",
+    cn: "我们必须向爱的人说再见。",
+    char: "Menma (Anohana)",
+  },
+
+  // Your Lie in April
+  {
+    id: "Musik ada untuk membuat orang bahagia.",
+    en: "Music exists to make people happy.",
+    jp: "音楽は人を幸せにするために存在する。",
+    cn: "音乐的存在是为了让人快乐。",
+    char: "Kousei Arima (Your Lie in April)",
+  },
+
+  // Made in Abyss
+  {
+    id: "Petualangan selalu dimulai dengan ketidaktahuan.",
+    en: "Adventure always begins with ignorance.",
+    jp: "冒険は常に無知から始まる。",
+    cn: "冒险总是从无知开始。",
+    char: "Riko (Made in Abyss)",
+  },
+
+  // Mushoku Tensei
+  {
+    id: "Tidak ada kata terlambat untuk memulai lagi.",
+    en: "It's never too late to start over.",
+    jp: "やり直すのに遅すぎることはない。",
+    cn: "重新开始永远不会太迟。",
+    char: "Rudeus Greyrat (Mushoku Tensei)",
+  },
+
+  // Chainsaw Man
+  {
+    id: "Mimpi buruk adalah mimpi juga.",
+    en: "Nightmares are dreams too.",
+    jp: "悪夢も夢だ。",
+    cn: "噩梦也是梦。",
+    char: "Denji (Chainsaw Man)",
+  },
+
+  // Spy x Family
+  {
+    id: "Keluarga adalah tempat kau bisa menjadi dirimu sendiri.",
+    en: "Family is where you can be yourself.",
+    jp: "家族は自分らしくいられる場所だ。",
+    cn: "家庭是你可以做自己的地方。",
+    char: "Loid Forger (Spy x Family)",
+  },
+
+  // Jujutsu Kaisen
+  {
+    id: "Aku akan menyelamatkan semua orang, bahkan jika itu artinya aku harus mati!",
+    en: "I will save everyone, even if it means I have to die!",
+    jp: "みんなを救う。たとえ死んでも！",
+    cn: "我会拯救所有人，即使要死！",
+    char: "Yuji Itadori (Jujutsu Kaisen)",
+  },
+  {
+    id: "Kehidupan tidak adil, tapi kau harus tetap hidup.",
+    en: "Life isn't fair, but you must keep living.",
+    jp: "人生は不公平だが、生き続けなければならない。",
+    cn: "生活不公平，但你必须继续活下去。",
+    char: "Satoru Gojo (Jujutsu Kaisen)",
+  },
+
+  // Blue Lock
+  {
+    id: "Untuk menjadi yang terbaik, kau harus egois.",
+    en: "To be the best, you must be selfish.",
+    jp: "最高になるためにはエゴイストでなければならない。",
+    cn: "要成为最好的，你必须自私。",
+    char: "Yoichi Isagi (Blue Lock)",
   },
 ];
 
@@ -502,12 +1070,57 @@ async function getData() {
 
 async function getDonghua() {
   const genreId = document.getElementById("inputGenre").value;
+  const year = document.getElementById("inputYear").value;
+
   let genreFilter =
     genreId && malToAnilistGenre[genreId]
       ? `, genre: "${malToAnilistGenre[genreId]}"`
       : "";
-  const randomPage = Math.floor(Math.random() * 20) + 1;
-  const query = `query { Page(page: ${randomPage}, perPage: 50) { media(countryOfOrigin: "CN", type: ANIME, sort: POPULARITY_DESC ${genreFilter}) { id title { romaji native } coverImage { large } description averageScore siteUrl status episodes trailer { id site } } } }`;
+
+  // Filter tahun untuk donghua - pakai startDate dan endDate
+  let yearFilter = "";
+  if (year) {
+    const startDate = parseInt(year) * 10000 + 101; // Format: 20230101
+    const endDate = parseInt(year) * 10000 + 1231; // Format: 20231231
+    yearFilter = `, startDate_greater: ${startDate}, startDate_lesser: ${endDate}`;
+  }
+
+  // Jangan pakai random page kalau ada filter tahun
+  const randomPage = year ? 1 : Math.floor(Math.random() * 10) + 1;
+  const perPage = year ? 50 : 50;
+
+  const query = `query { 
+    Page(page: ${randomPage}, perPage: ${perPage}) { 
+      media(
+        countryOfOrigin: "CN", 
+        type: ANIME, 
+        sort: POPULARITY_DESC 
+        ${genreFilter}
+        ${yearFilter}
+      ) { 
+        id 
+        title { 
+          romaji 
+          native 
+        } 
+        coverImage { 
+          large 
+        } 
+        description 
+        averageScore 
+        siteUrl 
+        status 
+        episodes 
+        trailer { 
+          id 
+          site 
+        }
+        startDate {
+          year
+        }
+      } 
+    } 
+  }`;
 
   try {
     const response = await fetch("https://graphql.anilist.co", {
@@ -516,9 +1129,14 @@ async function getDonghua() {
       body: JSON.stringify({ query }),
     });
     const result = await response.json();
+
+    console.log("Donghua API Response:", result); // Debug
+
     const items = result.data.Page.media;
-    if (!items.length) {
+    if (!items || items.length === 0) {
       showToast(translations[currentLang].alertNotFound, "error");
+      btn.disabled = false;
+      btn.innerText = translations[currentLang].btnAgain;
       return;
     }
 
@@ -531,9 +1149,11 @@ async function getDonghua() {
       native: anime.title.native,
       image: anime.coverImage.large,
       url: anime.siteUrl,
-      score: "⭐ " + (anime.averageScore / 10).toFixed(1),
+      score: anime.averageScore
+        ? "⭐ " + (anime.averageScore / 10).toFixed(1)
+        : "⭐ N/A",
       episodes: anime.episodes,
-      status: anime.status, // Biasanya UPPERCASE di AniList
+      status: anime.status,
       synopsis: anime.description
         ? anime.description.replace(/<[^>]*>?/gm, "")
         : "No description",
@@ -541,12 +1161,13 @@ async function getDonghua() {
         anime.trailer && anime.trailer.site === "youtube"
           ? `https://www.youtube.com/watch?v=${anime.trailer.id}`
           : null,
-      isDonghua: true, // Flag khusus
+      isDonghua: true,
     };
 
     displayAnimeDetails(formattedData);
   } catch (e) {
-    showToast("Error", "error");
+    console.error("Donghua Error:", e); // Debug
+    showToast("Error: " + e.message, "error");
   } finally {
     btn.disabled = false;
     btn.innerText = translations[currentLang].btnAgain;
@@ -586,17 +1207,26 @@ async function getCharacter() {
 async function getAnime() {
   const genre = document.getElementById("inputGenre").value;
   const year = document.getElementById("inputYear").value;
-  const randomPage = Math.floor(Math.random() * 25) + 1;
 
   try {
-    let url = `https://api.jikan.moe/v4/anime?order_by=popularity&sort=asc&sfw=true&page=${randomPage}`;
+    let url = `https://api.jikan.moe/v4/anime?order_by=popularity&sort=asc&sfw=true`;
     if (genre) url += `&genres=${genre}`;
     if (year) url += `&start_date=${year}-01-01&end_date=${year}-12-31`;
+
+    // Jangan pakai random page kalau ada filter tahun
+    if (!year) {
+      const randomPage = Math.floor(Math.random() * 25) + 1;
+      url += `&page=${randomPage}`;
+    } else {
+      url += `&page=1&limit=25`; // Ambil 25 hasil pertama
+    }
 
     const response = await fetch(url);
     const data = await response.json();
     if (!data.data.length) {
       showToast(translations[currentLang].alertNotFound, "error");
+      btn.disabled = false;
+      btn.innerText = translations[currentLang].btnAgain;
       return;
     }
 
@@ -917,6 +1547,10 @@ function showRandomQuote() {
   if (!animeQuotes.length) return;
   const idx = Math.floor(Math.random() * animeQuotes.length);
   currentQuote = animeQuotes[idx];
+  const quoteCharEl = document.querySelector(".quote-char");
+  if (quoteCharEl) {
+    quoteCharEl.innerText = `- ${currentQuote.char}`;
+  }
   updateText();
 }
 
