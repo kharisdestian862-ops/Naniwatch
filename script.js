@@ -25,7 +25,8 @@ const toastContainer = document.getElementById("toast-container");
 const quickTagsContainer = document.getElementById("quickTags");
 const zenToggle = document.getElementById("zenToggle");
 const fabContainer = document.getElementById("fabContainer");
-const btnScanSearch = document.getElementById("btnScanSearch"); // Tambahan untuk scan
+const btnScanSearch = document.getElementById("btnScanSearch");
+const btnProfile = document.getElementById("btnProfile");
 
 let currentLang = "id";
 let currentMode = "anime";
@@ -161,6 +162,9 @@ const translations = {
     toast_fav_added: "Tersimpan di Favorit ❤️",
     toast_fav_removed: "Dihapus dari Favorit 💔",
     toast_saved: "Gambar tersimpan! 📸",
+    about_title: "Tentang Developer",
+    about_role: "Web Developer",
+    about_msg: "Terima kasih sudah menggunakan website ini!",
   },
   en: {
     title: "Search Anime",
@@ -205,6 +209,9 @@ const translations = {
     toast_fav_added: "Saved to Favorites ❤️",
     toast_fav_removed: "Removed from Favorites 💔",
     toast_saved: "Image saved! 📸",
+    about_title: "About Developer",
+    about_role: "Web Developer",
+    about_msg: "Thank you for using this website!",
   },
   jp: {
     title: "アニメ検索",
@@ -249,6 +256,9 @@ const translations = {
     toast_fav_added: "保存しました ❤️",
     toast_fav_removed: "削除しました 💔",
     toast_saved: "保存完了！ 📸",
+    about_title: "開発者について",
+    about_role: "ウェブ開発者",
+    about_msg: "このウェブサイトをご利用いただきありがとうございます！",
   },
   cn: {
     title: "动漫搜索",
@@ -293,6 +303,9 @@ const translations = {
     toast_fav_added: "已收藏 ❤️",
     toast_fav_removed: "已取消 💔",
     toast_saved: "已保存！ 📸",
+    about_title: "关于开发者",
+    about_role: "网站开发者",
+    about_msg: "感谢您使用本网站！",
   },
 };
 
@@ -733,6 +746,58 @@ function checkFavoriteStatus(id) {
   }
 }
 
+function openFavorites() {
+  playSound(sfxClick);
+  homeView.style.display = "none";
+  favoritesView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
+  renderFavorites();
+}
+function closeFavorites() {
+  playSound(sfxClick);
+  favoritesView.style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
+}
+function openHistory() {
+  playSound(sfxClick);
+  homeView.style.display = "none";
+  historyView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
+  renderHistory();
+}
+function closeHistory() {
+  playSound(sfxClick);
+  historyView.style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
+}
+function openScan() {
+  playSound(sfxClick);
+  homeView.style.display = "none";
+  scanView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
+}
+function closeScan() {
+  playSound(sfxClick);
+  scanView.style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
+}
+function openStats() {
+  playSound(sfxClick);
+  homeView.style.display = "none";
+  statsView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
+  calculateStats();
+}
+function closeStats() {
+  playSound(sfxClick);
+  statsView.style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
+}
+
 function toggleFavorite() {
   if (!currentAnimeData) return;
   playSound(sfxClick);
@@ -929,6 +994,13 @@ function processVoiceCommand(cmd) {
   else if (cmd.includes("riwayat")) openHistory();
   else if (cmd.includes("favorit")) openFavorites();
   else if (cmd.includes("scan")) openScan();
+  else if (cmd.includes("kembali")) {
+    closeHistory();
+    closeFavorites();
+    closeScan();
+    closeStats();
+    closeAbout();
+  }
 }
 
 function previewImage(event) {
@@ -1006,6 +1078,27 @@ function displayScanResults(results) {
     `
     )
     .join("");
+}
+
+function openAbout() {
+  playSound(sfxClick);
+  homeView.style.display = "none";
+  favoritesView.style.display = "none";
+  historyView.style.display = "none";
+  scanView.style.display = "none";
+  statsView.style.display = "none";
+
+  const aboutEl = document.getElementById("aboutView");
+  if (aboutEl) aboutEl.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
+}
+
+function closeAbout() {
+  playSound(sfxClick);
+  const aboutEl = document.getElementById("aboutView");
+  if (aboutEl) aboutEl.style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
 }
 
 // Start
