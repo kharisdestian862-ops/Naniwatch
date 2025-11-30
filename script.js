@@ -24,6 +24,7 @@ const colorPicker = document.getElementById("colorPicker");
 const toastContainer = document.getElementById("toast-container");
 const quickTagsContainer = document.getElementById("quickTags");
 const zenToggle = document.getElementById("zenToggle");
+const fabContainer = document.getElementById("fabContainer");
 
 let currentLang = "id";
 let currentMode = "anime";
@@ -74,31 +75,43 @@ const animeQuotes = [
   {
     id: "Jika kau tidak berjuang, kau tidak bisa menang.",
     en: "If you don't fight, you can't win.",
+    jp: "戦わなければ勝てない。",
+    cn: "如果你不战斗，你就赢不了。",
     char: "Eren Yeager (AOT)",
   },
   {
     id: "Aku tidak akan menarik kembali kata-kataku!",
     en: "I never go back on my word!",
+    jp: "俺は自分の言葉を曲げない！",
+    cn: "我绝不食言！",
     char: "Naruto Uzumaki",
   },
   {
     id: "Manusia itu kuat karena bisa mengubah dirinya sendiri.",
     en: "Human strength lies in the ability to change yourself.",
+    jp: "人間は変われるから強いんだ。",
+    cn: "人类之所以强大，是因为他们能改变自己。",
     char: "Saitama (One Punch Man)",
   },
   {
     id: "Kehidupan bukan hanya melakukan hal yang menyenangkan.",
     en: "Life is not just doing things that are fun.",
+    jp: "人生は楽しいことだけじゃない。",
+    cn: "生活不仅仅是做有趣的事。",
     char: "L (Death Note)",
   },
   {
     id: "Orang lemah tidak punya hak untuk memilih cara mati.",
     en: "The weak don't get to decide how they die.",
+    jp: "弱者に死に方を選ぶ権利はない。",
+    cn: "弱者没有选择死法的权利。",
     char: "Trafalgar Law (One Piece)",
   },
   {
     id: "Mimpi manusia tidak akan pernah berakhir!",
     en: "People's dreams... never end!",
+    jp: "人の夢は!!! 終わらねェ!!!!",
+    cn: "人的梦想...永远不会结束！",
     char: "Marshall D. Teach (One Piece)",
   },
 ];
@@ -111,39 +124,39 @@ const translations = {
     desc: "Sesuaikan dengan seleramu hari ini!",
     desc_char: "Dapatkan karakter waifu/husbu acak!",
     desc_donghua: "Temukan animasi China terbaik!",
-    opt_random: "Semua Genre (Random)",
+    opt_random: "Semua Genre",
     btnSearch: "Carikan Anime",
     btnSearchChar: "Panggil Karakter",
     btnSearchDonghua: "Carikan Donghua",
     btnLoading: "Sedang Mencari...",
     btnAgain: "Cari Lagi",
     linkMal: "Lihat di MAL ↗",
-    placeholderYear: "Tahun (Opsional, cth: 2023)",
-    alertNotFound: "Tidak ditemukan anime dengan kriteria tersebut.",
-    alertError: "Terjadi kesalahan. Coba lagi nanti.",
-    btn_trailer: "Tonton Trailer",
+    placeholderYear: "Tahun",
+    alertNotFound: "Tidak ditemukan.",
+    alertError: "Terjadi kesalahan.",
+    btn_trailer: "Trailer",
     btn_share: "Bagikan",
-    btn_save: "Simpan Gambar",
-    btn_recommend: "Cari yang Mirip",
-    link_mal: "Lihat di MAL ↗",
-    hist_title: "Riwayat Pencarian",
-    hist_empty: "Belum ada riwayat.",
-    fav_title: "Anime Favoritku",
-    fav_empty: "Belum ada favorit.",
-    btn_clear: "Hapus Semua Riwayat",
+    btn_save: "Simpan",
+    btn_recommend: "Mirip",
+    link_mal: "MAL",
+    hist_title: "Riwayat",
+    hist_empty: "Kosong.",
+    fav_title: "Favorit",
+    fav_empty: "Kosong.",
+    btn_clear: "Hapus Semua",
     btn_history: "Riwayat",
     btn_fav: "Favorit",
     btn_back: "Kembali",
     btn_scan: "Scan",
-    scan_title: "Cari dari Screenshot",
-    scan_desc: "Upload screenshot anime, aku kasih tahu judulnya!",
-    scan_error: "Gagal memproses gambar.",
-    scan_no_result: "Tidak ada kecocokan ditemukan.",
-    similarity: "Kemiripan",
+    scan_title: "Scan Gambar",
+    scan_desc: "Upload gambar anime!",
+    scan_error: "Gagal memproses.",
+    scan_no_result: "Tidak ada hasil.",
+    similarity: "Mirip",
     trending_title: "🔥 Sedang Tayang",
-    toast_fav_added: "Ditambahkan ke Favorit ❤️",
+    toast_fav_added: "Tersimpan di Favorit ❤️",
     toast_fav_removed: "Dihapus dari Favorit 💔",
-    toast_saved: "Gambar berhasil disimpan! 📸",
+    toast_saved: "Gambar tersimpan! 📸",
     g_action: "Aksi",
     g_adventure: "Petualangan",
     g_comedy: "Komedi",
@@ -156,9 +169,9 @@ const translations = {
     g_slice: "Kehidupan Sehari-hari (SoL)",
     g_sports: "Olahraga",
     g_supernatural: "Supranatural",
-    g_suspense: "Tegang / Thriller",
-    t_isekai: "Isekai (Dunia Lain)",
-    t_mecha: "Mecha (Robot)",
+    g_suspense: "Suspense",
+    t_isekai: "Isekai",
+    t_mecha: "Mecha",
     t_school: "Sekolah",
     t_historical: "Sejarah",
     t_music: "Musik",
@@ -168,52 +181,52 @@ const translations = {
     t_vampire: "Vampir",
     t_superpower: "Kekuatan Super",
     t_martial: "Bela Diri",
-    d_shounen: "Shounen (Remaja Cowok)",
-    d_shoujo: "Shoujo (Remaja Cewek)",
-    d_seinen: "Seinen (Dewasa Pria)",
-    d_josei: "Josei (Dewasa Wanita)",
-    d_kids: "Kids (Anak-anak)",
+    d_shounen: "Shounen",
+    d_shoujo: "Shoujo",
+    d_seinen: "Seinen",
+    d_josei: "Josei",
+    d_kids: "Kids",
   },
   en: {
     title: "Search Anime",
     title_char: "Character Gacha",
     title_donghua: "Search Donghua",
-    desc: "Find something based on your taste!",
-    desc_char: "Get a random waifu/husbando!",
+    desc: "Find something for today!",
+    desc_char: "Get random waifu/husbando!",
     desc_donghua: "Discover top Chinese Animation!",
-    opt_random: "All Genres (Random)",
+    opt_random: "All Genres",
     btnSearch: "Find Anime",
-    btnSearchChar: "Summon Character",
+    btnSearchChar: "Summon Char",
     btnSearchDonghua: "Find Donghua",
     btnLoading: "Searching...",
     btnAgain: "Find Another",
     linkMal: "View on MAL ↗",
-    placeholderYear: "Year (Optional, e.g. 2023)",
-    alertNotFound: "No anime found with these criteria.",
-    alertError: "Something went wrong. Please try again.",
-    btn_trailer: "Watch Trailer",
+    placeholderYear: "Year",
+    alertNotFound: "Not found.",
+    alertError: "Error occurred.",
+    btn_trailer: "Trailer",
     btn_share: "Share",
-    btn_save: "Save Image",
-    btn_recommend: "Find Similar",
-    link_mal: "View on MAL ↗",
-    hist_title: "Search History",
-    hist_empty: "No history yet.",
-    fav_title: "My Favorites",
-    fav_empty: "No favorites yet.",
-    btn_clear: "Clear History",
+    btn_save: "Save",
+    btn_recommend: "Similar",
+    link_mal: "MAL",
+    hist_title: "History",
+    hist_empty: "Empty.",
+    fav_title: "Favorites",
+    fav_empty: "Empty.",
+    btn_clear: "Clear All",
     btn_history: "History",
     btn_fav: "Favorites",
     btn_back: "Back",
     btn_scan: "Scan",
-    scan_title: "Search by Screenshot",
-    scan_desc: "Upload an anime screenshot, I'll tell you the title!",
-    scan_error: "Failed to process image.",
-    scan_no_result: "No matches found.",
+    scan_title: "Scan Image",
+    scan_desc: "Upload anime image!",
+    scan_error: "Failed.",
+    scan_no_result: "No match.",
     similarity: "Similarity",
     trending_title: "🔥 Top Airing",
-    toast_fav_added: "Added to Favorites ❤️",
+    toast_fav_added: "Saved to Favorites ❤️",
     toast_fav_removed: "Removed from Favorites 💔",
-    toast_saved: "Image saved successfully! 📸",
+    toast_saved: "Image saved! 📸",
     g_action: "Action",
     g_adventure: "Adventure",
     g_comedy: "Comedy",
@@ -226,9 +239,9 @@ const translations = {
     g_slice: "Slice of Life",
     g_sports: "Sports",
     g_supernatural: "Supernatural",
-    g_suspense: "Suspense / Thriller",
-    t_isekai: "Isekai (Another World)",
-    t_mecha: "Mecha (Robots)",
+    g_suspense: "Suspense",
+    t_isekai: "Isekai",
+    t_mecha: "Mecha",
     t_school: "School",
     t_historical: "Historical",
     t_music: "Music",
@@ -238,13 +251,164 @@ const translations = {
     t_vampire: "Vampire",
     t_superpower: "Super Power",
     t_martial: "Martial Arts",
-    d_shounen: "Shounen (Teen Boys)",
-    d_shoujo: "Shoujo (Teen Girls)",
-    d_seinen: "Seinen (Adult Men)",
-    d_josei: "Josei (Adult Women)",
+    d_shounen: "Shounen",
+    d_shoujo: "Shoujo",
+    d_seinen: "Seinen",
+    d_josei: "Josei",
     d_kids: "Kids",
   },
+  jp: {
+    title: "アニメ検索",
+    title_char: "キャラガチャ",
+    title_donghua: "中国アニメ",
+    desc: "今日の気分に合わせて！",
+    desc_char: "ランダムなキャラをゲット！",
+    desc_donghua: "最高のアニメーションを発見！",
+    opt_random: "全ジャンル",
+    btnSearch: "検索",
+    btnSearchChar: "召喚",
+    btnSearchDonghua: "検索",
+    btnLoading: "検索中...",
+    btnAgain: "もう一度",
+    linkMal: "MALで見る",
+    placeholderYear: "年",
+    alertNotFound: "なし。",
+    alertError: "エラー。",
+    btn_trailer: "予告",
+    btn_share: "共有",
+    btn_save: "保存",
+    btn_recommend: "似たアニメ",
+    link_mal: "MAL",
+    hist_title: "履歴",
+    hist_empty: "なし",
+    fav_title: "お気に入り",
+    fav_empty: "なし",
+    btn_clear: "削除",
+    btn_history: "履歴",
+    btn_fav: "お気に入り",
+    btn_back: "戻る",
+    btn_scan: "スキャン",
+    scan_title: "スクショ検索",
+    scan_desc: "画像をアップロード！",
+    scan_error: "失敗。",
+    scan_no_result: "一致なし。",
+    similarity: "一致率",
+    trending_title: "🔥 放送中",
+    toast_fav_added: "保存しました ❤️",
+    toast_fav_removed: "削除しました 💔",
+    toast_saved: "保存完了！ 📸",
+    g_action: "アクション",
+    g_adventure: "冒険",
+    g_comedy: "コメディ",
+    g_drama: "ドラマ",
+    g_fantasy: "ファンタジー",
+    g_horror: "ホラー",
+    g_mystery: "ミステリー",
+    g_romance: "ロマンス",
+    g_scifi: "SF",
+    g_slice: "日常",
+    g_sports: "スポーツ",
+    g_supernatural: "超自然",
+    g_suspense: "サスペンス",
+    t_isekai: "異世界",
+    t_mecha: "メカ",
+    t_school: "学園",
+    t_historical: "歴史",
+    t_music: "音楽",
+    t_psychological: "心理",
+    t_military: "ミリタリー",
+    t_racing: "レース",
+    t_vampire: "ヴァンパイア",
+    t_superpower: "超能力",
+    t_martial: "武道",
+    d_shounen: "少年",
+    d_shoujo: "少女",
+    d_seinen: "青年",
+    d_josei: "女性",
+    d_kids: "子供",
+  },
+  cn: {
+    title: "动漫搜索",
+    title_char: "角色抽卡",
+    title_donghua: "搜索国漫",
+    desc: "根据你的心情选择！",
+    desc_char: "获取随机角色！",
+    desc_donghua: "发现精彩国漫！",
+    opt_random: "所有类型",
+    btnSearch: "搜索",
+    btnSearchChar: "召唤",
+    btnSearchDonghua: "搜索",
+    btnLoading: "搜索中...",
+    btnAgain: "再试一次",
+    linkMal: "查看MAL",
+    placeholderYear: "年份",
+    alertNotFound: "未找到。",
+    alertError: "错误。",
+    btn_trailer: "预告",
+    btn_share: "分享",
+    btn_save: "保存",
+    btn_recommend: "相似",
+    link_mal: "MAL",
+    hist_title: "历史",
+    hist_empty: "无",
+    fav_title: "收藏",
+    fav_empty: "无",
+    btn_clear: "清空",
+    btn_history: "历史",
+    btn_fav: "收藏",
+    btn_back: "返回",
+    btn_scan: "扫描",
+    scan_title: "截图搜索",
+    scan_desc: "上传图片！",
+    scan_error: "失败。",
+    scan_no_result: "无匹配。",
+    similarity: "相似度",
+    trending_title: "🔥 热播中",
+    toast_fav_added: "已收藏 ❤️",
+    toast_fav_removed: "已取消 💔",
+    toast_saved: "已保存！ 📸",
+    g_action: "动作",
+    g_adventure: "冒险",
+    g_comedy: "喜剧",
+    g_drama: "剧情",
+    g_fantasy: "奇幻",
+    g_horror: "恐怖",
+    g_mystery: "悬疑",
+    g_romance: "爱情",
+    g_scifi: "科幻",
+    g_slice: "日常",
+    g_sports: "运动",
+    g_supernatural: "超自然",
+    g_suspense: "惊悚",
+    t_isekai: "异世界",
+    t_mecha: "机甲",
+    t_school: "校园",
+    t_historical: "历史",
+    t_music: "音乐",
+    t_psychological: "心理",
+    t_military: "军事",
+    t_racing: "赛车",
+    t_vampire: "吸血鬼",
+    t_superpower: "超能力",
+    t_martial: "武侠",
+    d_shounen: "少年",
+    d_shoujo: "少女",
+    d_seinen: "青年",
+    d_josei: "女性",
+    d_kids: "儿童",
+  },
 };
+
+function toggleFabMenu() {
+  fabContainer.classList.toggle("active");
+  playSound(sfxClick);
+}
+
+document.addEventListener("click", (e) => {
+  if (!fabContainer.contains(e.target)) {
+    fabContainer.classList.remove("active");
+  }
+});
 
 function renderQuickTags() {
   quickTagsContainer.innerHTML = quickTags
@@ -263,8 +427,6 @@ function selectQuickTag(id) {
 
 function toggleZenMode() {
   body.classList.toggle("zen-mode");
-  const isZen = body.classList.contains("zen-mode");
-  zenToggle.innerHTML = isZen ? icons.eyeOff : icons.eye;
 }
 
 function playSound(audio) {
@@ -1089,13 +1251,10 @@ themeBtn.addEventListener("click", () => {
 });
 
 langBtn.addEventListener("click", () => {
-  if (currentLang === "id") {
-    currentLang = "en";
-    langBtn.innerText = "EN";
-  } else {
-    currentLang = "id";
-    langBtn.innerText = "ID";
-  }
+  const langs = ["id", "en", "jp", "cn"];
+  let idx = langs.indexOf(currentLang);
+  currentLang = langs[(idx + 1) % langs.length];
+  langBtn.innerText = currentLang.toUpperCase();
   updateText();
 });
 
@@ -1114,16 +1273,6 @@ function updateText() {
     document.querySelector('[data-lang="title"]').innerText = t.title;
     document.querySelector('[data-lang="desc"]').innerText = t.desc;
     btn.innerText = t.btnSearch;
-  }
-
-  if (currentLang === "id") {
-    document.getElementById("grpGenre").label = "Genre Utama";
-    document.getElementById("grpTheme").label = "Tema";
-    document.getElementById("grpDemographic").label = "Target Penonton";
-  } else {
-    document.getElementById("grpGenre").label = "Main Genres";
-    document.getElementById("grpTheme").label = "Themes";
-    document.getElementById("grpDemographic").label = "Demographics";
   }
 
   const elements = document.querySelectorAll("[data-lang]");
@@ -1265,3 +1414,5 @@ function processVoiceCommand(cmd) {
 renderQuickTags();
 getTrendingAnime();
 renderHistory();
+calculateStats();
+updateText();
