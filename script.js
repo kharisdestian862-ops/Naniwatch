@@ -284,7 +284,24 @@ const translations = {
   },
 };
 
-// --- HELPER FUNCTIONS (DEFINED FIRST) ---
+// --- LOAD SAVED SETTINGS (WARNA & TEMA) ---
+
+// 1. Load Warna
+const savedColor = localStorage.getItem("themeColor");
+if (savedColor) {
+  document.documentElement.style.setProperty("--main-color", savedColor);
+  colorPicker.value = savedColor;
+}
+
+// 2. Load Tema (Dark/Light)
+const savedTheme = localStorage.getItem("themeMode");
+if (savedTheme === "light") {
+  body.classList.add("light-mode");
+  themeBtn.innerHTML = icons.sun;
+  themeBtn.style.backgroundColor = "#4b7bec";
+}
+
+// --- HELPER FUNCTIONS ---
 
 function playSound(audio) {
   if (audio) {
@@ -311,9 +328,55 @@ function toggleFabMenu() {
   playSound(sfxClick);
 }
 
+document.addEventListener("click", (e) => {
+  if (!fabContainer.contains(e.target)) fabContainer.classList.remove("active");
+});
+
+function renderQuickTags() {
+  quickTagsContainer.innerHTML = quickTags
+    .map(
+      (tag) =>
+        `<button class="tag-btn" onclick="selectQuickTag('${tag.id}')">${tag.name}</button>`
+    )
+    .join("");
+}
+
+function selectQuickTag(id) {
+  document.getElementById("inputGenre").value = id;
+  playSound(sfxClick);
+  getData();
+}
+
 function toggleZenMode() {
   body.classList.toggle("zen-mode");
 }
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("youtube-player", {
+    height: "0",
+    width: "0",
+    videoId: "jfKfPfyJRdk",
+    playerVars: { playsinline: 1, loop: 1 },
+    events: { onReady: onPlayerReady },
+  });
+}
+
+function onPlayerReady(event) {
+  event.target.setVolume(50);
+}
+
+musicBtn.addEventListener("click", () => {
+  if (!player) return;
+  if (isMusicPlaying) {
+    player.pauseVideo();
+    musicBtn.innerHTML = icons.music;
+    isMusicPlaying = false;
+  } else {
+    player.playVideo();
+    musicBtn.innerHTML = icons.pause;
+    isMusicPlaying = true;
+  }
+});
 
 function switchMode(mode) {
   currentMode = mode;
@@ -452,6 +515,17 @@ async function getDonghua() {
       : "No desc";
     document.getElementById("linkMal").href = anime.siteUrl;
 
+    const trailerBtn = document.getElementById("btnTrailer");
+    if (anime.trailer && anime.trailer.site === "youtube") {
+      trailerBtn.href = `https://www.youtube.com/watch?v=${anime.trailer.id}`;
+      trailerBtn.style.display = "flex";
+    } else {
+      trailerBtn.style.display = "none";
+    }
+
+    document.getElementById("btnRecommend").style.display = "none";
+    document.querySelector(".quote-box").style.display = "none";
+
     addToHistory(currentAnimeData);
     checkFavoriteStatus(currentAnimeData.mal_id);
     playSound(sfxSuccess);
@@ -484,6 +558,10 @@ async function getCharacter() {
     document.getElementById("txtSynopsis").innerText = char.about
       ? char.about.substring(0, 200) + "..."
       : "-";
+
+    document.getElementById("btnTrailer").style.display = "none";
+    document.getElementById("btnRecommend").style.display = "none";
+    document.querySelector(".quote-box").style.display = "none";
 
     addToHistory(currentAnimeData);
     checkFavoriteStatus(currentAnimeData.mal_id);
@@ -567,6 +645,17 @@ function displayAnimeDetails(anime) {
     : "-";
   document.getElementById("linkMal").href = anime.url;
 
+  const trailerBtn = document.getElementById("btnTrailer");
+  if (anime.trailer && anime.trailer.url) {
+    trailerBtn.href = anime.trailer.url;
+    trailerBtn.style.display = "flex";
+  } else {
+    trailerBtn.style.display = "none";
+  }
+
+  document.getElementById("btnRecommend").style.display = "flex";
+  document.querySelector(".quote-box").style.display = "block";
+
   addToHistory(currentAnimeData);
   checkFavoriteStatus(anime.mal_id);
   playSound(sfxSuccess);
@@ -625,7 +714,7 @@ function toggleFavorite() {
   calculateStats();
 }
 
-// --- DEFINISI RENDER HISTORY (INI YANG PENTING) ---
+// --- DEFINISI RENDER HISTORY ---
 function renderHistory() {
   const list = document.getElementById("historyList");
   const history = JSON.parse(localStorage.getItem("animeHistory")) || [];
@@ -657,7 +746,8 @@ function addToHistory(itemData) {
   const historyItem = {
     id: itemData.mal_id,
     title: itemData.title,
-    image: itemData.image,
+    image:
+      itemData.image || (itemData.images ? itemData.images.jpg.image_url : ""),
     url: itemData.url,
     score: itemData.score,
   };
@@ -786,24 +876,67 @@ function closeStats() {
 }
 
 function showRandomQuote() {
+  if (!animeQuotes.length) return;
   const idx = Math.floor(Math.random() * animeQuotes.length);
   currentQuote = animeQuotes[idx];
   updateText();
 }
 
-function renderQuickTags() {
-  quickTagsContainer.innerHTML = quickTags
-    .map(
-      (tag) =>
-        `<button class="tag-btn" onclick="selectQuickTag('${tag.id}')">${tag.name}</button>`
-    )
-    .join("");
-}
+// --- UPDATE TEMA DAN WARNA ---
+themeBtn.addEventListener("click", () => {
+  body.classList.toggle("light-mode");
+  const mode = body.classList.contains("light-mode") ? "light" : "dark";
+  localStorage.setItem("themeMode", mode);
 
-function selectQuickTag(id) {
-  document.getElementById("inputGenre").value = id;
-  playSound(sfxClick);
-  getData();
+  if (mode === "light") {
+    themeBtn.innerHTML = icons.sun;
+    themeBtn.style.backgroundColor = "#4b7bec";
+  } else {
+    themeBtn.innerHTML = icons.moon;
+    themeBtn.style.backgroundColor = "#2e51a2";
+  }
+});
+
+colorPicker.addEventListener("input", (e) => {
+  const newColor = e.target.value;
+  document.documentElement.style.setProperty("--main-color", newColor);
+  localStorage.setItem("themeColor", newColor);
+});
+
+// --- UPDATE BAHASA ---
+langBtn.addEventListener("click", () => {
+  const langs = ["id", "en", "jp", "cn"];
+  currentLang = langs[(langs.indexOf(currentLang) + 1) % langs.length];
+  langBtn.innerText = currentLang.toUpperCase();
+  updateText();
+});
+
+function updateText() {
+  const t = translations[currentLang];
+  if (currentMode === "character") {
+    document.querySelector('[data-lang="title"]').innerText = t.title_char;
+    btn.innerText = t.btnSearchChar;
+  } else if (currentMode === "donghua") {
+    document.querySelector('[data-lang="title"]').innerText = t.title_donghua;
+    btn.innerText = t.btnSearchDonghua;
+  } else {
+    document.querySelector('[data-lang="title"]').innerText = t.title;
+    btn.innerText = t.btnSearch;
+  }
+
+  document.querySelectorAll("[data-lang]").forEach((el) => {
+    const k = el.getAttribute("data-lang");
+    if (t[k] && !["title", "desc", "btn_search"].includes(k))
+      el.innerText = t[k];
+  });
+
+  if (currentQuote) {
+    const q = document.querySelector(".quote-text");
+    if (currentLang === "id") q.innerText = `"${currentQuote.id}"`;
+    else if (currentLang === "jp") q.innerText = `"${currentQuote.jp}"`;
+    else if (currentLang === "cn") q.innerText = `"${currentQuote.cn}"`;
+    else q.innerText = `"${currentQuote.en}"`;
+  }
 }
 
 function previewImage(event) {
@@ -814,7 +947,7 @@ function previewImage(event) {
       document.getElementById("imagePreview").src = e.target.result;
       document.getElementById("imagePreview").style.display = "block";
       document.getElementById("uploadPlaceholder").style.display = "none";
-      btnScanSearch.style.display = "inline-block"; // Munculkan tombol
+      btnScanSearch.style.display = "inline-block";
       btnScanSearch.disabled = false;
     };
     reader.readAsDataURL(file);
@@ -841,7 +974,6 @@ async function searchByImage() {
     const data = await response.json();
     document.getElementById("scanLoading").style.display = "none";
 
-    // KEMBALIKAN TOMBOL
     btnScanSearch.disabled = false;
     btnScanSearch.innerText = "🔍 Scan Anime";
     btnScanSearch.style.display = "inline-block";
@@ -883,58 +1015,46 @@ function displayScanResults(results) {
     .join("");
 }
 
-// --- LISTENERS ---
-document.addEventListener("click", (e) => {
-  if (!fabContainer.contains(e.target)) fabContainer.classList.remove("active");
-});
-themeBtn.addEventListener("click", () => {
-  body.classList.toggle("light-mode");
-});
-langBtn.addEventListener("click", () => {
-  const langs = ["id", "en", "jp", "cn"];
-  currentLang = langs[(langs.indexOf(currentLang) + 1) % langs.length];
-  langBtn.innerText = currentLang.toUpperCase();
-  updateText();
-});
-
-function updateText() {
-  const t = translations[currentLang];
-  // (Logika update text sama seperti sebelumnya, dipersingkat)
-  if (currentMode === "character") {
-    document.querySelector('[data-lang="title"]').innerText = t.title_char;
-    btn.innerText = t.btnSearchChar;
-  } else if (currentMode === "donghua") {
-    document.querySelector('[data-lang="title"]').innerText = t.title_donghua;
-    btn.innerText = t.btnSearchDonghua;
-  } else {
-    document.querySelector('[data-lang="title"]').innerText = t.title;
-    btn.innerText = t.btnSearch;
+// --- VOICE ---
+function startVoiceCommand() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    showToast("Browser tidak mendukung fitur suara.", "error");
+    return;
   }
-
-  // Update elemen lain via data-lang
-  document.querySelectorAll("[data-lang]").forEach((el) => {
-    const k = el.getAttribute("data-lang");
-    if (t[k] && !["title", "desc", "btn_search"].includes(k))
-      el.innerText = t[k];
-  });
-
-  if (currentQuote) {
-    const q = document.querySelector(".quote-text");
-    if (currentLang === "id") q.innerText = `"${currentQuote.id}"`;
-    else if (currentLang === "jp") q.innerText = `"${currentQuote.jp}"`;
-    else if (currentLang === "cn") q.innerText = `"${currentQuote.cn}"`;
-    else q.innerText = `"${currentQuote.en}"`;
-  }
+  const recognition = new SpeechRecognition();
+  recognition.lang = "id-ID";
+  recognition.onstart = () => {
+    btnVoice.classList.add("listening");
+    voiceStatus.style.opacity = "1";
+  };
+  recognition.onend = () => {
+    btnVoice.classList.remove("listening");
+    voiceStatus.style.opacity = "0";
+  };
+  recognition.onresult = (event) => {
+    processVoiceCommand(event.results[0][0].transcript.toLowerCase());
+  };
+  recognition.start();
 }
 
-colorPicker.addEventListener("input", (e) =>
-  document.documentElement.style.setProperty("--main-color", e.target.value)
-);
+function processVoiceCommand(cmd) {
+  if (cmd.includes("cari anime")) getData();
+  if (cmd.includes("riwayat")) openHistory();
+  if (cmd.includes("favorit")) openFavorites();
+  if (cmd.includes("scan")) openScan();
+  if (cmd.includes("kembali")) {
+    closeHistory();
+    closeFavorites();
+    closeScan();
+  }
+  // ... logic genre map (sama seperti sebelumnya)
+}
 
-// --- START ---
+// Initial Call
 renderQuickTags();
 getTrendingAnime();
 renderHistory();
 calculateStats();
-updateText();
-
+showRandomQuote();
