@@ -1,3 +1,7 @@
+:root {
+  --main-color: #4b7bec;
+}
+
 body {
   font-family: "Segoe UI", sans-serif;
   background-color: #0f0f12;
@@ -10,6 +14,14 @@ body {
   padding: 20px;
   position: relative;
   z-index: 1;
+}
+
+body.zen-mode .zen-hide {
+  display: none !important;
+}
+
+body.zen-mode .container {
+  padding-top: 50px;
 }
 
 #dynamic-bg {
@@ -26,6 +38,10 @@ body {
   transition: background-image 0.5s ease-in-out;
 }
 
+body.zen-mode #dynamic-bg {
+  filter: blur(0px) brightness(0.7);
+}
+
 .container {
   max-width: 600px;
   width: 100%;
@@ -34,8 +50,8 @@ body {
 }
 
 h1 {
-  color: #2e51a2;
-  text-shadow: 0 0 10px rgba(46, 81, 162, 0.5);
+  color: var(--main-color);
+  text-shadow: 0 0 10px rgba(75, 123, 236, 0.5);
   margin-bottom: 10px;
 }
 
@@ -44,7 +60,153 @@ p {
   margin-bottom: 30px;
 }
 
-/* NAVIGASI RESPONSIVE */
+.quick-tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+  color: #ccc;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tag-btn:hover {
+  background-color: var(--main-color);
+  color: white;
+  border-color: var(--main-color);
+}
+
+#toast-container {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 90%;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  background-color: #2b2b2b;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #444;
+}
+
+.toast.success {
+  border-color: #2ecc71;
+  color: #2ecc71;
+  background-color: #1a1a1a;
+}
+.toast.error {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background-color: #1a1a1a;
+}
+.toast.info {
+  border-color: var(--main-color);
+  color: var(--main-color);
+  background-color: #1a1a1a;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.trending-wrapper {
+  width: 100%;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.trending-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding: 10px 5px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.trending-list::-webkit-scrollbar {
+  display: none;
+}
+
+.trending-item {
+  flex: 0 0 110px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.trending-item:hover {
+  transform: scale(1.05);
+}
+
+.trending-poster {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.trending-title {
+  font-size: 0.8rem;
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ddd;
+}
+
+.loading-trending {
+  color: #aaa;
+  font-size: 0.9rem;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+}
+
 .top-nav {
   position: absolute;
   top: 20px;
@@ -70,40 +232,41 @@ p {
 }
 
 .nav-btn:hover {
-  border-color: #4b7bec;
-  color: #4b7bec;
-  background-color: rgba(75, 123, 236, 0.1);
+  border-color: var(--main-color);
+  color: var(--main-color);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .mode-switcher {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
   margin-bottom: 20px;
   background: #1b1b1f;
   padding: 5px;
   border-radius: 30px;
   border: 1px solid #333;
   display: inline-flex;
+  flex-wrap: wrap;
 }
 
 .mode-btn {
   background: transparent;
   border: none;
   color: #aaa;
-  padding: 8px 25px;
+  padding: 8px 15px;
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
   transition: 0.3s;
+  font-size: 0.9rem;
 }
 
 .mode-btn.active {
-  background-color: #4b7bec;
+  background-color: var(--main-color);
   color: white;
 }
 
-/* AREA SEARCH & VOICE */
 .search-area {
   display: flex;
   justify-content: center;
@@ -130,7 +293,6 @@ p {
   background-color: #444;
 }
 
-/* Efek berdenyut saat mendengarkan */
 .voice-btn.listening {
   background-color: #ff5252;
   animation: pulse 1.5s infinite;
@@ -149,7 +311,7 @@ p {
 }
 
 .gacha-btn {
-  background: linear-gradient(45deg, #2e51a2, #4b7bec);
+  background: var(--main-color);
   color: white;
   font-size: 1.2rem;
   padding: 15px 40px;
@@ -157,15 +319,16 @@ p {
   border-radius: 50px;
   cursor: pointer;
   font-weight: bold;
-  box-shadow: 0 5px 20px rgba(46, 81, 162, 0.4);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
   transition: transform 0.2s, box-shadow 0.2s;
-  flex-grow: 1; /* Biar tombol ini menuhin sisa ruang */
+  flex-grow: 1;
   max-width: 300px;
 }
 
 .gacha-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(46, 81, 162, 0.6);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  filter: brightness(1.1);
 }
 
 .gacha-btn:active {
@@ -269,7 +432,7 @@ p {
   margin: 15px 0 25px 0;
   padding: 15px;
   background-color: #252529;
-  border-left: 4px solid #4b7bec;
+  border-left: 4px solid var(--main-color);
   border-radius: 0 8px 8px 0;
   font-style: italic;
 }
@@ -284,7 +447,7 @@ p {
 .quote-char {
   display: block;
   margin-top: 8px;
-  color: #4b7bec;
+  color: var(--main-color);
   font-size: 0.85rem;
   font-weight: bold;
   text-align: right;
@@ -312,7 +475,7 @@ p {
 }
 
 .custom-input:focus {
-  border-color: #4b7bec;
+  border-color: var(--main-color);
   box-shadow: 0 0 10px rgba(75, 123, 236, 0.2);
 }
 
@@ -331,7 +494,7 @@ p {
   height: 50px;
   border-radius: 50%;
   border: none;
-  background-color: #4b7bec;
+  background-color: var(--main-color);
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
@@ -340,6 +503,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* INI PENTING AGAR INPUT WARNA TIDAK BOCOR */
 }
 
 .toggle-btn svg {
@@ -361,7 +525,9 @@ p {
 }
 
 .action-buttons a,
-.fav-btn {
+.fav-btn,
+.save-btn,
+.recommend-btn {
   flex: 1;
   text-align: center;
   text-decoration: none;
@@ -395,6 +561,28 @@ p {
   color: #ff5252;
 }
 
+.recommend-btn {
+  background-color: #00b894;
+  color: white;
+  border: none;
+}
+
+.recommend-btn:hover {
+  background-color: #00a383;
+  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+}
+
+.save-btn {
+  background: linear-gradient(45deg, #8e44ad, #9b59b6);
+  color: white;
+  border: none;
+}
+
+.save-btn:hover {
+  background: linear-gradient(45deg, #9b59b6, #8e44ad);
+  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+}
+
 .trailer-btn {
   background-color: #ff0000;
   color: white;
@@ -419,12 +607,12 @@ p {
 
 .mal-link {
   background-color: transparent;
-  border: 1px solid #4b7bec;
-  color: #4b7bec;
+  border: 1px solid var(--main-color);
+  color: var(--main-color);
 }
 
 .mal-link:hover {
-  background-color: #4b7bec;
+  background-color: var(--main-color);
   color: white;
 }
 
@@ -455,7 +643,7 @@ p {
 
 .history-item:hover {
   transform: translateX(5px);
-  border-color: #4b7bec;
+  border-color: var(--main-color);
   background-color: #252529;
 }
 
@@ -524,7 +712,7 @@ p {
 }
 
 .upload-box:hover {
-  border-color: #4b7bec;
+  border-color: var(--main-color);
   background-color: rgba(75, 123, 236, 0.05);
 }
 
@@ -571,7 +759,7 @@ p {
 }
 
 .scan-title {
-  color: #4b7bec;
+  color: var(--main-color);
   font-size: 1.1rem;
   margin: 0 0 5px 0;
 }
@@ -581,6 +769,67 @@ p {
   color: #aaa;
 }
 
+.stats-card {
+  background-color: #1b1b1f;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-card h3 {
+  margin: 0 0 10px 0;
+  color: #eee;
+  font-size: 1.1rem;
+}
+
+.level-badge {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--main-color);
+  text-shadow: 0 0 15px rgba(75, 123, 236, 0.3);
+  margin-bottom: 5px;
+}
+
+.stats-grid {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  flex: 1;
+  background-color: #252529;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.stat-num {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.chart-container {
+  background-color: #1b1b1f;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #333;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 body.light-mode {
   background-color: #f0f2f5;
   color: #333333;
@@ -588,7 +837,7 @@ body.light-mode {
 
 body.light-mode h1 {
   text-shadow: none;
-  color: #2e51a2;
+  color: var(--main-color);
 }
 body.light-mode p {
   color: #666;
@@ -629,13 +878,13 @@ body.light-mode .history-title {
 }
 body.light-mode .quote-box {
   background-color: #e4e6eb;
-  border-left-color: #2e51a2;
+  border-left-color: var(--main-color);
 }
 body.light-mode .quote-text {
   color: #555;
 }
 body.light-mode .quote-char {
-  color: #2e51a2;
+  color: var(--main-color);
 }
 body.light-mode .upload-box {
   background-color: #fff;
@@ -646,7 +895,7 @@ body.light-mode .scan-result-card {
   border-color: #ddd;
 }
 body.light-mode .scan-title {
-  color: #2e51a2;
+  color: var(--main-color);
 }
 body.light-mode .mode-switcher {
   background: #fff;
@@ -656,11 +905,22 @@ body.light-mode .mode-btn {
   color: #555;
 }
 body.light-mode .mode-btn.active {
-  background-color: #2e51a2;
+  background-color: var(--main-color);
   color: #fff;
 }
 body.light-mode .toggle-btn svg {
   stroke: #333;
+}
+body.light-mode .stats-card,
+body.light-mode .stat-box,
+body.light-mode .chart-container {
+  background-color: #fff;
+  border-color: #ddd;
+  color: #333;
+}
+body.light-mode .stats-card h3,
+body.light-mode .stat-num {
+  color: #333;
 }
 
 @media (max-width: 768px) {
@@ -689,8 +949,19 @@ body.light-mode .toggle-btn svg {
     gap: 10px;
   }
   .action-buttons a,
-  .fav-btn {
+  .fav-btn,
+  .save-btn,
+  .recommend-btn {
     font-size: 0.8rem;
     padding: 10px 5px;
+  }
+}
+
+@media (max-width: 400px) {
+  .trending-item {
+    flex: 0 0 90px;
+  }
+  .trending-poster {
+    height: 130px;
   }
 }
