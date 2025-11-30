@@ -25,9 +25,6 @@
           <i class="fas fa-history"></i>
           <span data-lang="btn_history">Riwayat</span>
         </button>
-        <button class="nav-btn" onclick="openStats()">
-          <i class="fas fa-chart-pie"></i> Stats
-        </button>
       </div>
 
       <h1 class="zen-hide" data-lang="title">Cari Anime</h1>
@@ -66,8 +63,9 @@
           data-lang="trending_title"
           style="
             text-align: left;
-            margin-left: 10px;
+            margin-left: 15px;
             margin-bottom: 10px;
+            font-size: 1rem;
             color: var(--main-color);
           "
         >
@@ -94,13 +92,11 @@
             <option value="36" data-lang="g_slice">Slice of Life</option>
             <option value="30" data-lang="g_sports">Sports</option>
             <option value="37" data-lang="g_supernatural">Supernatural</option>
-            <option value="41" data-lang="g_suspense">
-              Suspense / Thriller
-            </option>
+            <option value="41" data-lang="g_suspense">Suspense</option>
           </optgroup>
           <optgroup id="grpTheme" label="Tema">
-            <option value="62" data-lang="t_isekai">Isekai (Dunia Lain)</option>
-            <option value="18" data-lang="t_mecha">Mecha (Robot)</option>
+            <option value="62" data-lang="t_isekai">Isekai</option>
+            <option value="18" data-lang="t_mecha">Mecha</option>
             <option value="23" data-lang="t_school">School</option>
             <option value="13" data-lang="t_historical">Historical</option>
             <option value="19" data-lang="t_music">Music</option>
@@ -114,26 +110,18 @@
             <option value="17" data-lang="t_martial">Martial Arts</option>
           </optgroup>
           <optgroup id="grpDemographic" label="Target Penonton">
-            <option value="27" data-lang="d_shounen">
-              Shounen (Remaja Cowok)
-            </option>
-            <option value="25" data-lang="d_shoujo">
-              Shoujo (Remaja Cewek)
-            </option>
-            <option value="42" data-lang="d_seinen">
-              Seinen (Dewasa Pria)
-            </option>
-            <option value="43" data-lang="d_josei">
-              Josei (Dewasa Wanita)
-            </option>
-            <option value="15" data-lang="d_kids">Kids (Anak-anak)</option>
+            <option value="27" data-lang="d_shounen">Shounen</option>
+            <option value="25" data-lang="d_shoujo">Shoujo</option>
+            <option value="42" data-lang="d_seinen">Seinen</option>
+            <option value="43" data-lang="d_josei">Josei</option>
+            <option value="15" data-lang="d_kids">Kids</option>
           </optgroup>
         </select>
         <input
           type="number"
           id="inputYear"
           class="custom-input"
-          placeholder="Tahun (Opsional, cth: 2023)"
+          placeholder="Tahun"
         />
       </div>
 
@@ -200,7 +188,7 @@
               data-lang="btn_recommend"
               style="display: none"
             >
-              <i class="fas fa-magic"></i> Mirip
+              <i class="fas fa-magic"></i>
             </button>
 
             <a
@@ -210,7 +198,7 @@
               class="trailer-btn"
               data-lang="btn_trailer"
             >
-              <i class="fab fa-youtube"></i> Trailer
+              <i class="fab fa-youtube"></i>
             </a>
 
             <button
@@ -219,7 +207,7 @@
               onclick="downloadCard()"
               data-lang="btn_save"
             >
-              <i class="fas fa-download"></i> Save
+              <i class="fas fa-download"></i>
             </button>
 
             <a
@@ -229,7 +217,7 @@
               class="share-btn"
               data-lang="btn_share"
             >
-              <i class="fab fa-whatsapp"></i> Share
+              <i class="fab fa-whatsapp"></i>
             </a>
             <a
               id="linkMal"
@@ -238,7 +226,7 @@
               class="mal-link"
               data-lang="link_mal"
             >
-              MAL ↗
+              MAL
             </a>
           </div>
         </div>
@@ -248,9 +236,8 @@
     <div id="historyView" class="container" style="display: none">
       <button class="nav-btn top-left" onclick="closeHistory()">
         <i class="fas fa-arrow-left"></i>
-        <span data-lang="btn_back">Kembali</span>
       </button>
-      <h2 data-lang="hist_title" style="margin-top: 50px">Riwayat Pencarian</h2>
+      <h2 data-lang="hist_title" style="margin-top: 50px">Riwayat</h2>
       <div id="historyList" class="history-list"></div>
       <button
         onclick="clearHistory()"
@@ -258,16 +245,15 @@
         data-lang="btn_clear"
         style="margin-top: 20px"
       >
-        Hapus Semua Riwayat
+        Hapus Semua
       </button>
     </div>
 
     <div id="favoritesView" class="container" style="display: none">
       <button class="nav-btn top-left" onclick="closeFavorites()">
         <i class="fas fa-arrow-left"></i>
-        <span data-lang="btn_back">Kembali</span>
       </button>
-      <h2 data-lang="fav_title" style="margin-top: 50px">Anime Favoritku</h2>
+      <h2 data-lang="fav_title" style="margin-top: 50px">Favorit</h2>
       <div id="favoritesList" class="history-list"></div>
       <p
         class="empty-msg"
@@ -282,11 +268,8 @@
     <div id="scanView" class="container" style="display: none">
       <button class="nav-btn top-left" onclick="closeScan()">
         <i class="fas fa-arrow-left"></i>
-        <span data-lang="btn_back">Kembali</span>
       </button>
-      <h2 data-lang="scan_title" style="margin-top: 50px">
-        Cari dari Screenshot
-      </h2>
+      <h2 data-lang="scan_title" style="margin-top: 50px">Scan Gambar</h2>
       <p data-lang="scan_desc">
         Upload gambar adegan anime, sistem akan mencarinya!
       </p>
@@ -303,7 +286,7 @@
             class="fas fa-cloud-upload-alt"
             style="font-size: 3rem; color: var(--main-color)"
           ></i>
-          <p>Klik untuk upload gambar</p>
+          <p>Upload</p>
         </div>
       </div>
       <button
@@ -312,13 +295,13 @@
         onclick="searchByImage()"
         style="margin-top: 20px; display: none"
       >
-        🔍 Scan Anime
+        🔍 Scan
       </button>
       <div
         id="scanLoading"
         style="display: none; margin-top: 20px; color: #aaa"
       >
-        <i class="fas fa-spinner fa-spin"></i> Sedang memproses gambar...
+        Sedang memproses...
       </div>
       <div id="scanResult" class="scan-results-container"></div>
     </div>
@@ -326,24 +309,18 @@
     <div id="statsView" class="container" style="display: none">
       <button class="nav-btn top-left" onclick="closeStats()">
         <i class="fas fa-arrow-left"></i>
-        <span data-lang="btn_back">Kembali</span>
       </button>
-      <h2 style="margin-top: 50px; color: var(--main-color)">Statistik Wibu</h2>
+      <h2 style="margin-top: 50px; color: var(--main-color)">Statistik</h2>
       <div class="stats-card">
-        <h3>Level Kamu</h3>
+        <h3>Level</h3>
         <div id="wibuLevel" class="level-badge">Newbie</div>
-        <p id="wibuMsg" style="font-size: 0.9rem; color: #aaa; margin-top: 5px">
-          Terus cari anime untuk naik level!
-        </p>
       </div>
       <div class="stats-grid">
         <div class="stat-box">
-          <span id="statHistory" class="stat-num">0</span>
-          <span class="stat-label">Riwayat</span>
+          <span id="statHistory" class="stat-num">0</span><span>Riwayat</span>
         </div>
         <div class="stat-box">
-          <span id="statFav" class="stat-num">0</span>
-          <span class="stat-label">Favorit</span>
+          <span id="statFav" class="stat-num">0</span><span>Favorit</span>
         </div>
       </div>
       <div class="chart-container">
@@ -351,102 +328,75 @@
       </div>
     </div>
 
-    <div class="floating-buttons">
-      <button
-        id="zenToggle"
-        class="toggle-btn"
-        style="background-color: #2d3436"
-        onclick="toggleZenMode()"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+    <div class="fab-container" id="fabContainer">
+      <div class="fab-items">
+        <button
+          id="zenToggle"
+          class="toggle-btn mini-fab"
+          style="background-color: #2d3436"
+          onclick="toggleZenMode()"
         >
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-      </button>
+          <i class="fas fa-eye"></i>
+        </button>
 
-      <label
-        for="colorPicker"
-        class="toggle-btn zen-hide"
-        style="background-color: #ffffff; cursor: pointer"
-      >
-        🎨
-        <input
-          type="color"
-          id="colorPicker"
+        <label
+          for="colorPicker"
+          class="toggle-btn mini-fab"
+          style="background-color: #ffffff; cursor: pointer"
+        >
+          <span style="font-size: 1.2rem">🎨</span>
+          <input
+            type="color"
+            id="colorPicker"
+            style="
+              position: absolute;
+              opacity: 0;
+              width: 100%;
+              height: 100%;
+              cursor: pointer;
+            "
+          />
+        </label>
+
+        <button
+          id="musicToggle"
+          class="toggle-btn mini-fab"
+          style="background-color: #f1c40f"
+        >
+          <i class="fas fa-music"></i>
+        </button>
+
+        <button
+          id="langToggle"
+          class="toggle-btn mini-fab"
           style="
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
+            background-color: #ff5252;
+            font-weight: bold;
+            font-size: 0.9rem;
           "
-        />
-      </label>
+        >
+          ID
+        </button>
 
-      <button
-        id="musicToggle"
-        class="toggle-btn zen-hide"
-        style="background-color: #f1c40f"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+        <button
+          id="themeToggle"
+          class="toggle-btn mini-fab"
+          style="background-color: #6c5ce7"
         >
-          <path d="M9 18V5l12-2v13"></path>
-          <circle cx="6" cy="18" r="3"></circle>
-          <circle cx="18" cy="16" r="3"></circle>
-        </svg>
-      </button>
-      <button
-        id="langToggle"
-        class="toggle-btn zen-hide"
-        style="background-color: #ff5252; font-weight: 900; font-size: 1.1rem"
-      >
-        ID
-      </button>
-      <button id="themeToggle" class="toggle-btn zen-hide">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <button
+          class="toggle-btn mini-fab"
+          style="background-color: #00b894"
+          onclick="openStats()"
         >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-      <button
-        class="toggle-btn zen-hide"
-        style="background-color: #6c5ce7"
-        onclick="openStats()"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-          <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-        </svg>
+          <i class="fas fa-chart-pie"></i>
+        </button>
+      </div>
+
+      <button class="toggle-btn main-fab" onclick="toggleFabMenu()">
+        <i class="fas fa-cog" id="fabIcon"></i>
       </button>
     </div>
 
