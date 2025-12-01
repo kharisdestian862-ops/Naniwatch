@@ -27,6 +27,8 @@ const zenToggle = document.getElementById("zenToggle");
 const fabContainer = document.getElementById("fabContainer");
 const btnScanSearch = document.getElementById("btnScanSearch");
 const btnProfile = document.getElementById("btnProfile");
+console.log("btnProfile element:", btnProfile);
+console.log("btnProfile ID:", document.getElementById("btnProfile"));
 
 let currentLang = "id";
 let currentMode = "anime";
@@ -1396,58 +1398,6 @@ function checkFavoriteStatus(id) {
   }
 }
 
-function openFavorites() {
-  playSound(sfxClick);
-  homeView.style.display = "none";
-  favoritesView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "none";
-  renderFavorites();
-}
-function closeFavorites() {
-  playSound(sfxClick);
-  favoritesView.style.display = "none";
-  homeView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "flex";
-}
-function openHistory() {
-  playSound(sfxClick);
-  homeView.style.display = "none";
-  historyView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "none";
-  renderHistory();
-}
-function closeHistory() {
-  playSound(sfxClick);
-  historyView.style.display = "none";
-  homeView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "flex";
-}
-function openScan() {
-  playSound(sfxClick);
-  homeView.style.display = "none";
-  scanView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "none";
-}
-function closeScan() {
-  playSound(sfxClick);
-  scanView.style.display = "none";
-  homeView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "flex";
-}
-function openStats() {
-  playSound(sfxClick);
-  homeView.style.display = "none";
-  statsView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "none";
-  calculateStats();
-}
-function closeStats() {
-  playSound(sfxClick);
-  statsView.style.display = "none";
-  homeView.style.display = "block";
-  if (btnProfile) btnProfile.style.display = "flex";
-}
-
 function toggleFavorite() {
   if (!currentAnimeData) return;
   playSound(sfxClick);
@@ -1483,11 +1433,13 @@ function openFavorites() {
         )
         .join("")
     : "<p>Kosong</p>";
+  if (btnProfile) btnProfile.style.display = "none";
 }
 function closeFavorites() {
   playSound(sfxClick);
   favoritesView.style.display = "none";
   homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
 }
 
 function openHistory() {
@@ -1504,33 +1456,39 @@ function openHistory() {
         )
         .join("")
     : "<p>Kosong</p>";
+  if (btnProfile) btnProfile.style.display = "none";
 }
 function closeHistory() {
   playSound(sfxClick);
   historyView.style.display = "none";
   homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
 }
 
 function openScan() {
   playSound(sfxClick);
   homeView.style.display = "none";
   scanView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
 }
 function closeScan() {
   playSound(sfxClick);
   scanView.style.display = "none";
   homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
 }
 function openStats() {
   playSound(sfxClick);
   homeView.style.display = "none";
   statsView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
   calculateStats();
 }
 function closeStats() {
   playSound(sfxClick);
   statsView.style.display = "none";
   homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
 }
 
 function openDetail(animeData) {
@@ -1653,25 +1611,73 @@ function getSimilarFromDetail() {
 }
 
 function calculateStats() {
+  const history = JSON.parse(localStorage.getItem("animeHistory")) || [];
+  const favorites = JSON.parse(localStorage.getItem("animeFavorites")) || [];
+
+  const histCount = history.length;
+  const favCount = favorites.length;
+
+  // --- BAGIAN INI YANG HILANG SEBELUMNYA ---
+  if (document.getElementById("statHistory")) {
+    document.getElementById("statHistory").innerText = histCount;
+  }
+  if (document.getElementById("statFav")) {
+    document.getElementById("statFav").innerText = favCount;
+  }
+
+  // Update Level Wibu
+  let level = "Newbie";
+  const total = histCount + favCount;
+  if (total > 5) level = "Anime Fan";
+  if (total > 20) level = "Otaku";
+  if (total > 50) level = "Wibu Sepuh";
+  if (total > 100) level = "Kami-sama";
+
+  if (document.getElementById("wibuLevel")) {
+    document.getElementById("wibuLevel").innerText = level;
+  }
+  // ------------------------------------------
+
+  // Update Chart
   const ctx = document.getElementById("wibuChart").getContext("2d");
   if (myChart) myChart.destroy();
-  const h = (JSON.parse(localStorage.getItem("animeHistory")) || []).length;
-  const f = (JSON.parse(localStorage.getItem("animeFavorites")) || []).length;
+
   myChart = new Chart(ctx, {
     type: "doughnut",
     data: {
       labels: ["Riwayat", "Favorit"],
-      datasets: [{ data: [h, f], backgroundColor: ["#4b7bec", "#ff5252"] }],
+      datasets: [
+        {
+          data: [histCount, favCount],
+          backgroundColor: ["#4b7bec", "#ff5252"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: "#aaa" },
+        },
+      },
     },
   });
 }
 
 function addToHistory(item) {
   let history = JSON.parse(localStorage.getItem("animeHistory")) || [];
+
   history = history.filter((h) => h.mal_id !== item.mal_id);
+
   history.unshift(item);
-  if (history.length > 20) history.pop();
+
+  if (history.length > 50) history.pop();
+
   localStorage.setItem("animeHistory", JSON.stringify(history));
+
+  calculateStats();
 }
 
 function clearHistory() {
