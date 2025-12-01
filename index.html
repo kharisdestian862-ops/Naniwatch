@@ -34,6 +34,11 @@
       </div>
 
       <h1 class="zen-hide" data-lang="title">Cari Anime</h1>
+      <h3
+        id="greetingText"
+        class="zen-hide"
+        style="margin-bottom: 5px; color: #fff"
+      ></h3>
       <p class="zen-hide" data-lang="desc">
         Sesuaikan dengan seleramu hari ini!
       </p>
@@ -245,6 +250,23 @@
           </div>
         </div>
       </div>
+      <div id="skeletonCard" class="anime-card" style="display: none">
+        <div class="skeleton-header">
+          <div class="skeleton-line title"></div>
+          <div class="skeleton-line subtitle"></div>
+        </div>
+        <div class="skeleton-img"></div>
+        <div class="content">
+          <div class="tag-row">
+            <div class="skeleton-badge"></div>
+            <div class="skeleton-badge"></div>
+            <div class="skeleton-badge"></div>
+          </div>
+          <div class="skeleton-line text"></div>
+          <div class="skeleton-line text"></div>
+          <div class="skeleton-line text short"></div>
+        </div>
+      </div>
     </div>
 
     <div id="historyView" class="container" style="display: none">
@@ -412,7 +434,7 @@
     <div class="fab-container" id="fabContainer">
       <div class="fab-items">
         <button
-          class="toggle-btn mini-fab mobile-only-fab"
+          class="toggle-btn mini-fab"
           style="background-color: #00b894"
           onclick="openStats()"
         >
@@ -506,6 +528,114 @@
     <div id="youtube-player" style="display: none"></div>
     <audio id="sfxClick" src="click.mp3" preload="auto"></audio>
     <audio id="sfxSuccess" src="success.mp3" preload="auto"></audio>
+
+    <div id="detailView" class="container" style="display: none">
+      <button class="nav-btn top-left" onclick="closeDetail()">
+        <i class="fas fa-arrow-left"></i>
+        <span data-lang="btn_back" style="margin-left: 5px">Kembali</span>
+      </button>
+
+      <div class="detail-wrapper">
+        <!-- Clean Header Section -->
+        <div class="detail-clean-header">
+          <div class="detail-poster-section">
+            <img id="detailPoster" class="clean-poster" src="" alt="Poster" />
+          </div>
+
+          <div class="detail-info-section">
+            <h1 id="detailTitle" class="clean-title">Judul Anime</h1>
+            <p id="detailTitleNative" class="clean-subtitle">日本語タイトル</p>
+
+            <!-- Minimal Stats -->
+            <div class="clean-stats">
+              <div class="clean-stat">
+                <div class="stat-value" id="detailScore">8.5</div>
+                <div class="stat-label">Rating</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="clean-stat">
+                <div class="stat-value" id="detailEpisodes">12</div>
+                <div class="stat-label">Episodes</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="clean-stat">
+                <div class="stat-value" id="detailStatus">Airing</div>
+                <div class="stat-label">Status</div>
+              </div>
+            </div>
+
+            <!-- Primary Actions -->
+            <div class="primary-actions">
+              <button
+                id="detailBtnFav"
+                class="primary-btn btn-fav"
+                onclick="toggleFavoriteFromDetail()"
+              >
+                <i class="far fa-heart"></i>
+                <span>Favorite</span>
+              </button>
+              <a
+                id="detailBtnTrailer"
+                href="#"
+                target="_blank"
+                class="primary-btn btn-play"
+              >
+                <i class="fas fa-play"></i>
+                <span>Watch Trailer</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Synopsis Section -->
+        <div class="detail-clean-section">
+          <h2 class="section-heading">Synopsis</h2>
+          <p id="detailSynopsis" class="synopsis-text">Loading synopsis...</p>
+        </div>
+
+        <!-- Quote Section (Anime only) -->
+        <div
+          id="detailQuoteSection"
+          class="detail-clean-section quote-section"
+          style="display: none"
+        >
+          <div class="modern-quote">
+            <i class="fas fa-quote-left quote-icon"></i>
+            <p class="modern-quote-text" id="detailQuoteText">"Quote here"</p>
+            <p class="modern-quote-char" id="detailQuoteChar">
+              - Character Name
+            </p>
+          </div>
+        </div>
+
+        <!-- Secondary Actions -->
+        <div class="secondary-actions">
+          <button
+            id="detailBtnSave"
+            class="secondary-btn"
+            onclick="downloadDetailCard()"
+          >
+            <i class="fas fa-download"></i>
+            <span>Save Image</span>
+          </button>
+
+          <a id="detailBtnMAL" href="#" target="_blank" class="secondary-btn">
+            <i class="fas fa-external-link-alt"></i>
+            <span>MyAnimeList</span>
+          </a>
+
+          <button
+            id="detailBtnSimilar"
+            class="secondary-btn"
+            onclick="getSimilarFromDetail()"
+            style="display: none"
+          >
+            <i class="fas fa-magic"></i>
+            <span>Find Similar</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
