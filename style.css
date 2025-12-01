@@ -1613,3 +1613,160 @@ body.light-mode .quote-section {
   border-color: var(--main-color);
   outline: none;
 }
+
+.tech-stack-container {
+  margin: 20px 0;
+  padding: 15px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-badges {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tech-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+}
+
+.tech-badge:hover {
+  background: var(--main-color);
+  color: white;
+  border-color: var(--main-color);
+  transform: translateY(-2px);
+}
+
+/* Warna Ikon Spesifik */
+.tech-badge .fa-html5 {
+  color: #e34c26;
+}
+.tech-badge .fa-css3-alt {
+  color: #264de4;
+}
+.tech-badge .fa-js {
+  color: #f0db4f;
+}
+
+/* Override saat hover agar ikon jadi putih semua */
+.tech-badge:hover i {
+  color: white;
+}
+
+.fav-anime-section {
+  margin: 20px 0;
+  padding: 15px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.fav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.fav-item img {
+  width: 100%;
+  height: 100px; /* Ukuran poster kecil */
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.fav-item:hover img {
+  transform: scale(1.05);
+}
+
+.fav-item span {
+  font-size: 0.7rem;
+  color: #ddd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* --- FITUR TRAKTIR KOPI --- */
+.support-btn {
+  display: inline-flex; /* Biar icon & teks sejajar */
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 25px;
+  background: #ffdd00; /* Warna Kuning Kopi */
+  color: #333;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(255, 221, 0, 0.2);
+}
+
+.support-btn:hover {
+  background: #ffc107;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 221, 0, 0.4);
+}
+
+/* --- ANIMASI SHAKE (EASTER EGG) --- */
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+.shake-anim {
+  animation: shake 0.5s;
+  animation-iteration-count: 1;
+}
