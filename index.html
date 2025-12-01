@@ -31,6 +31,10 @@
           <i class="fas fa-history"></i>
           <span data-lang="btn_history" style="margin-left: 5px">Riwayat</span>
         </button>
+        <button class="nav-btn" onclick="openSearchPage()">
+          <i class="fas fa-search"></i>
+          <span style="margin-left: 5px">Cari</span>
+        </button>
       </div>
 
       <h1 class="zen-hide" data-lang="title">Cari Anime</h1>
@@ -303,6 +307,95 @@
       </p>
     </div>
 
+    <div id="searchView" class="container" style="display: none">
+      <button class="nav-btn top-left" onclick="closeSearchPage()">
+        <i class="fas fa-arrow-left"></i>
+        <span data-lang="btn_back" style="margin-left: 5px">Kembali</span>
+      </button>
+
+      <h2 style="margin-top: 50px; color: var(--main-color)">Cari Anime</h2>
+
+      <div class="filter-box" style="margin-top: 20px">
+        <input
+          type="text"
+          id="searchInput"
+          class="custom-input"
+          placeholder="Ketik judul anime..."
+          style="width: 70%"
+        />
+        <button
+          class="gacha-btn"
+          onclick="executeSearch()"
+          style="width: auto; padding: 10px 20px; font-size: 1rem"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <div id="searchResultContainer" style="display: none; margin-top: 20px">
+        <h3
+          style="text-align: left; margin-left: 15px; color: var(--main-color)"
+        >
+          Hasil Pencarian
+        </h3>
+        <div
+          id="searchResultList"
+          class="trending-list"
+          style="flex-wrap: wrap; justify-content: center"
+        ></div>
+      </div>
+
+      <div id="preSearchContent">
+        <div class="trending-wrapper">
+          <h3
+            style="
+              text-align: left;
+              margin-left: 15px;
+              margin-bottom: 10px;
+              color: #e74c3c;
+            "
+          >
+            🔥 Sedang Tayang
+          </h3>
+          <div id="listAiring" class="trending-list">
+            <div class="loading-trending">Memuat...</div>
+          </div>
+        </div>
+
+        <div class="trending-wrapper">
+          <h3
+            style="
+              text-align: left;
+              margin-left: 15px;
+              margin-bottom: 10px;
+              color: #f1c40f;
+            "
+          >
+            🏆 Top Populer
+          </h3>
+          <div id="listPopular" class="trending-list">
+            <div class="loading-trending">Memuat...</div>
+          </div>
+        </div>
+
+        <div class="trending-wrapper">
+          <h3
+            style="
+              text-align: left;
+              margin-left: 15px;
+              margin-bottom: 10px;
+              color: #9b59b6;
+            "
+          >
+            ⭐ Rating Tertinggi
+          </h3>
+          <div id="listUpcoming" class="trending-list">
+            <div class="loading-trending">Memuat...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="scanView" class="container" style="display: none">
       <button class="nav-btn top-left" onclick="closeScan()">
         <i class="fas fa-arrow-left"></i>
@@ -568,6 +661,13 @@
           onclick="openFeedback()"
         >
           <i class="fas fa-comment-dots"></i>
+        </button>
+        <button
+          class="toggle-btn mini-fab mobile-only-fab"
+          style="background-color: #3498db"
+          onclick="openSearchPage()"
+        >
+          <i class="fas fa-search"></i>
         </button>
       </div>
 
