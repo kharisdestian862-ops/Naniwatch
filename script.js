@@ -1484,11 +1484,43 @@ function openStats() {
   if (btnProfile) btnProfile.style.display = "none";
   calculateStats();
 }
+
 function closeStats() {
   playSound(sfxClick);
   statsView.style.display = "none";
   homeView.style.display = "block";
   if (btnProfile) btnProfile.style.display = "flex";
+}
+
+function openFeedback() {
+  playSound(sfxClick);
+  hideAllViews();
+  document.getElementById("feedbackView").style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none"; // Hide Profile
+}
+
+function closeFeedback() {
+  playSound(sfxClick);
+  document.getElementById("feedbackView").style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex"; // Show Profile
+}
+
+function hideAllViews() {
+  homeView.style.display = "none";
+  favoritesView.style.display = "none";
+  historyView.style.display = "none";
+  scanView.style.display = "none";
+  statsView.style.display = "none";
+
+  // TAMBAHAN:
+  const feedbackEl = document.getElementById("feedbackView");
+  if (feedbackEl) feedbackEl.style.display = "none";
+
+  const aboutEl = document.getElementById("aboutView");
+  if (aboutEl) aboutEl.style.display = "none";
+  if (document.getElementById("detailView"))
+    document.getElementById("detailView").style.display = "none";
 }
 
 function openDetail(animeData) {
@@ -1794,12 +1826,14 @@ function processVoiceCommand(cmd) {
   else if (cmd.includes("riwayat")) openHistory();
   else if (cmd.includes("favorit")) openFavorites();
   else if (cmd.includes("scan")) openScan();
+  else if (cmd.includes("feedback") || cmd.includes("masukan")) openFeedback();
   else if (cmd.includes("kembali")) {
     closeHistory();
     closeFavorites();
     closeScan();
     closeStats();
     closeAbout();
+    closeFeedback(); // Tambahkan closeFeedback
   }
 }
 
