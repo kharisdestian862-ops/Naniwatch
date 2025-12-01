@@ -1770,3 +1770,67 @@ body.light-mode .quote-section {
   animation: shake 0.5s;
   animation-iteration-count: 1;
 }
+
+#searchResultList {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+  justify-content: center; /* Agar hasil search ada di tengah */
+}
+
+/* Memastikan item hasil search ukurannya pas */
+#searchResultList .trending-item {
+  flex: 0 0 130px; /* Lebih besar sedikit dari trending biasa */
+  margin-bottom: 15px;
+}
+
+#searchResultList .trending-poster {
+  height: 190px;
+}
+
+#searchResultList {
+  display: flex;
+  flex-wrap: wrap; /* Agar turun ke bawah kalau penuh */
+  justify-content: center; /* Rata tengah */
+  gap: 15px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+/* Memaksa ukuran kartu di hasil pencarian agar seragam */
+#searchResultList .trending-item {
+  flex: 0 0 140px; /* Lebar kartu tetap */
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#searchResultList .trending-poster {
+  width: 100%;
+  height: 200px; /* Tinggi poster tetap */
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#searchResultList .trending-title {
+  width: 100%;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsif untuk HP kecil */
+@media (max-width: 400px) {
+  #searchResultList .trending-item {
+    flex: 0 0 45%; /* Jadi 2 kolom di HP kecil */
+    width: 45%;
+  }
+  #searchResultList .trending-poster {
+    height: 180px;
+  }
+}
