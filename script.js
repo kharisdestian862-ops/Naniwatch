@@ -1935,6 +1935,44 @@ function closeAbout() {
   if (btnProfile) btnProfile.style.display = "flex";
 }
 
+let eggCount = 0;
+let eggTimer;
+
+function triggerEasterEgg() {
+  const avatar = document.querySelector(".profile-avatar");
+  const audio = document.getElementById("sfxAra");
+
+  eggCount++;
+
+  // Reset hitungan kalau tidak diklik lagi dalam 1 detik
+  clearTimeout(eggTimer);
+  eggTimer = setTimeout(() => {
+    eggCount = 0;
+  }, 800);
+
+  // Efek 'Boing' kecil tiap klik
+  avatar.style.transform = `scale(${1 + eggCount * 0.05})`;
+  setTimeout(() => (avatar.style.transform = "scale(1)"), 100);
+
+  // Jika sudah klik 5x cepat
+  if (eggCount >= 5) {
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch((e) => console.log("Audio error:", e));
+    }
+
+    // Tambahkan kelas animasi getar
+    avatar.classList.add("shake-anim");
+
+    // Hapus kelas animasi setelah selesai
+    setTimeout(() => {
+      avatar.classList.remove("shake-anim");
+    }, 500);
+
+    eggCount = 0; // Reset hitungan
+  }
+}
+
 // Start
 renderQuickTags();
 getTrendingAnime();
