@@ -385,7 +385,11 @@
       <div class="profile-wrapper">
         <div class="profile-card">
           <div class="profile-header">
-            <div class="profile-avatar">
+            <div
+              class="profile-avatar"
+              onclick="triggerEasterEgg()"
+              style="cursor: pointer; transition: 0.2s"
+            >
               <i class="fas fa-user-astronaut"></i>
             </div>
             <h2 class="profile-name">Kharis Destian Maulana</h2>
@@ -404,6 +408,39 @@
               <p>🇨🇳 哈里斯·德斯蒂安·毛拉纳</p>
             </div>
 
+            <div class="fav-anime-section">
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: #aaa;
+                  margin-bottom: 10px;
+                  font-weight: bold;
+                "
+              >
+                🏆 Top 3 Favorit Saya:
+              </p>
+              <div class="fav-grid">
+                <div class="fav-item">
+                  <img
+                    src="https://cdn.myanimelist.net/images/anime/1105/119414.jpg"
+                    alt="Anime 1"
+                  />
+                </div>
+                <div class="fav-item">
+                  <img
+                    src="https://cdn.myanimelist.net/images/anime/1015/138006.jpg"
+                    alt="Anime 2"
+                  />
+                </div>
+                <div class="fav-item">
+                  <img
+                    src="https://cdn.myanimelist.net/images/anime/1258/126929.jpg"
+                    alt="Anime 3"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div class="social-links">
               <a
                 href="https://www.instagram.com/kharis_destian?igsh=bWYyZjR6NGY1MGtu"
@@ -411,7 +448,6 @@
                 class="social-btn ig"
               >
                 <i class="fab fa-instagram"></i>
-                <span>Instagram</span>
               </a>
               <a
                 href="https://x.com/RiRay862?t=iDQzj1b6WLunb65j-61-2w&s=09"
@@ -419,17 +455,25 @@
                 class="social-btn tw"
               >
                 <i class="fa-brands fa-x-twitter"></i>
-                <span>X (Twitter)</span>
               </a>
               <a href="mailto:kharisdestian862@gmail.com" class="social-btn em">
                 <i class="fas fa-envelope"></i>
-                <span>Email</span>
               </a>
             </div>
+
+            <a
+              href="https://saweria.co/RiRay"
+              target="_blank"
+              class="support-btn"
+            >
+              <i class="fas fa-coffee"></i> Traktir Kopi
+            </a>
           </div>
         </div>
       </div>
     </div>
+
+    <audio id="sfxAra" src="ara-ara.mp3" preload="auto"></audio>
 
     <div class="fab-container" id="fabContainer">
       <div class="fab-items">
