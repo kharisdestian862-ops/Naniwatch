@@ -1773,19 +1773,36 @@ body.light-mode .quote-section {
 
 #searchResultList {
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap; /* Agar turun ke bawah kalau penuh */
+  justify-content: center; /* Rata tengah */
+  gap: 15px; /* Jarak antar kartu */
   padding: 10px;
-  justify-content: center; /* Agar hasil search ada di tengah */
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Memastikan item hasil search ukurannya pas */
 #searchResultList .trending-item {
-  flex: 0 0 130px; /* Lebih besar sedikit dari trending biasa */
-  margin-bottom: 15px;
+  flex: 0 0 140px; /* Lebar kartu tetap (mirip poster bioskop) */
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#searchResultList .trending-item:hover {
+  transform: scale(1.05); /* Efek zoom saat di-hover */
 }
 
 #searchResultList .trending-poster {
-  height: 190px;
+  width: 100%;
+  height: 200px; /* Tinggi poster fix */
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 #searchResultList {
@@ -1821,7 +1838,8 @@ body.light-mode .quote-section {
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* Titik-titik kalau kepanjangan */
+  color: #ddd;
 }
 
 /* Responsif untuk HP kecil */
@@ -1832,5 +1850,408 @@ body.light-mode .quote-section {
   }
   #searchResultList .trending-poster {
     height: 180px;
+  }
+}
+
+.schedule-time {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.day-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+  color: #ccc;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.day-btn:hover {
+  border-color: var(--main-color);
+  color: var(--main-color);
+}
+
+.day-btn.active {
+  background: var(--main-color);
+  color: white;
+  border-color: var(--main-color);
+  box-shadow: 0 4px 10px rgba(75, 123, 236, 0.3);
+}
+
+.schedule-time {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffeb3b;
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .day-tabs {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  #searchResultList {
+    gap: 10px; /* Jarak lebih rapat di HP */
+    padding: 5px;
+  }
+
+  #searchResultList .trending-item {
+    flex: 0 0 100px; /* Ukuran kartu lebih kecil di HP */
+    width: 100px;
+  }
+
+  #searchResultList .trending-poster {
+    height: 150px;
+  }
+
+  #searchResultList .trending-title {
+    font-size: 0.75rem;
+  }
+}
+
+.learning-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.breadcrumb {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.breadcrumb span {
+  cursor: pointer;
+  color: var(--main-color);
+}
+
+.breadcrumb span:hover {
+  text-decoration: underline;
+}
+
+/* Level Cards (N5-N1) */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.level-card {
+  background: #252529;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.level-card:hover {
+  border-color: var(--main-color);
+  transform: translateY(-3px);
+}
+
+.level-badge-big {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--main-color);
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Lesson Content Styles */
+.lesson-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.lesson-h3 {
+  color: #fff;
+  border-left: 4px solid var(--main-color);
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.example-box {
+  background: #1b1b1f;
+  border: 1px dashed #555;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.jp-text {
+  font-size: 1.2rem;
+  color: #a4b0be;
+}
+.ro-text {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 5px;
+  display: block;
+}
+.id-text {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Vocab Table */
+.vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.vocab-table th,
+.vocab-table td {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+  text-align: left;
+}
+.vocab-table th {
+  color: var(--main-color);
+}
+
+/* Quiz Box */
+.quiz-box {
+  background: #2c3e50;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.quiz-option {
+  display: block;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  margin: 5px 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.quiz-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.quiz-option.correct {
+  background: #27ae60;
+  color: white;
+}
+.quiz-option.wrong {
+  background: #c0392b;
+  color: white;
+}
+
+/* Light Mode Support */
+body.light-mode .level-card,
+body.light-mode .lesson-section {
+  background: #fff;
+  border-color: #ddd;
+  color: #333;
+}
+body.light-mode .example-box {
+  background: #f9f9f9;
+  border-color: #ccc;
+}
+body.light-mode .jp-text {
+  color: #2c3e50;
+}
+body.light-mode .id-text {
+  color: #333;
+}
+body.light-mode .vocab-table th {
+  color: var(--main-color);
+}
+body.light-mode .vocab-table td {
+  border-bottom: 1px solid #eee;
+}
+
+.novel-reader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95); /* Gelap banget biar fokus */
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Teks di tengah vertikal */
+  align-items: center;
+  padding: 20px;
+  cursor: pointer; /* Memberi tahu user bisa diklik */
+}
+
+.novel-content-area {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  padding-bottom: 40px; /* Ruang buat segitiga */
+}
+
+.typing-text {
+  font-size: 2rem;
+  color: #fff;
+  font-family: "Courier New", Courier, monospace; /* Font ala ketikan */
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  min-height: 100px;
+  white-space: pre-wrap;
+  line-height: 1.8;
+  word-break: break-word;
+}
+
+/* Animasi Segitiga Kedip-kedip */
+.next-icon {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--main-color);
+  font-size: 2rem;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, 10px);
+    opacity: 1;
+  }
+}
+
+/* Style untuk Cover Novel di Menu */
+.novel-item {
+  width: 140px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.novel-item:hover {
+  transform: scale(1.05);
+}
+.novel-cover {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.novel-title {
+  font-size: 0.9rem;
+  margin-top: 8px;
+  color: white;
+  font-weight: bold;
+}
+
+@media (max-width: 992px) {
+  .typing-text {
+    font-size: 1.6rem;
+    line-height: 1.7;
+  }
+
+  .novel-content-area {
+    max-width: 600px;
+    padding: 0 15px 40px;
+  }
+
+  .next-icon {
+    font-size: 1.8rem;
+  }
+
+  .novel-item {
+    width: 120px;
+  }
+
+  .novel-cover {
+    height: 170px;
+  }
+}
+
+@media (max-width: 600px) {
+  .novel-reader {
+    padding: 10px;
+  }
+
+  .novel-content-area {
+    max-width: 100%;
+    padding: 0 10px 35px;
+  }
+
+  .typing-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    min-height: 80px;
+  }
+
+  .next-icon {
+    font-size: 1.6rem;
+  }
+
+  .novel-item {
+    width: 110px;
+  }
+
+  .novel-cover {
+    height: 160px;
+  }
+
+  .novel-title {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .typing-text {
+    font-size: 1rem;
+  }
+
+  .next-icon {
+    font-size: 1.4rem;
+  }
+
+  .novel-item {
+    width: 95px;
+  }
+
+  .novel-cover {
+    height: 140px;
   }
 }
