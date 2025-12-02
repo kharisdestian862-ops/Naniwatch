@@ -1273,6 +1273,7 @@ async function getData() {
   if (currentMode === "character") await getCharacter();
   else if (currentMode === "donghua") await getDonghua();
   else await getAnime();
+  updateQuestProgress("search");
 }
 
 async function getDonghua() {
@@ -1603,6 +1604,7 @@ function toggleFavorite() {
   } else {
     favorites.unshift(currentAnimeData);
     showToast(translations[currentLang].toast_fav_added, "success");
+    updateQuestProgress("favorite");
   }
   localStorage.setItem("animeFavorites", JSON.stringify(favorites));
   checkFavoriteStatus(currentAnimeData.mal_id);
@@ -1648,6 +1650,7 @@ function openHistory() {
         .join("")
     : "<p>Kosong</p>";
   if (btnProfile) btnProfile.style.display = "none";
+  updateQuestProgress("view_history");
 }
 function closeHistory() {
   playSound(sfxClick);
@@ -1674,6 +1677,7 @@ function openStats() {
   statsView.style.display = "block";
   if (btnProfile) btnProfile.style.display = "none";
   calculateStats();
+  updateQuestProgress("view_stats");
 }
 
 function closeStats() {
@@ -1724,6 +1728,8 @@ function hideAllViews() {
     document.getElementById("novelReaderView").style.display = "none";
   if (document.getElementById("omikujiView"))
     document.getElementById("omikujiView").style.display = "none";
+  if (document.getElementById("questView"))
+    document.getElementById("questView").style.display = "none";
 }
 
 function openDetail(animeData) {
@@ -1814,6 +1820,7 @@ function openDetail(animeData) {
       }"`;
       document.getElementById("detailQuoteChar").innerText = `- ${q.char}`;
     }
+    updateQuestProgress("view_detail");
   }
 
   // Simpan data untuk fungsi lain
@@ -2035,6 +2042,7 @@ colorPicker.addEventListener("input", (e) => {
   const newColor = e.target.value;
   document.documentElement.style.setProperty("--main-color", newColor);
   localStorage.setItem("themeColor", newColor);
+  updateQuestProgress("change_theme");
 });
 
 const savedColor = localStorage.getItem("themeColor");
@@ -2066,6 +2074,7 @@ function startVoiceCommand() {
 }
 
 function processVoiceCommand(cmd) {
+  updateQuestProgress("voice");
   if (cmd.includes("cari anime")) getData();
   else if (cmd.includes("riwayat")) openHistory();
   else if (cmd.includes("favorit")) openFavorites();
@@ -2127,6 +2136,7 @@ async function searchByImage() {
       return;
     }
     displayScanResults(data.result);
+    updateQuestProgress("scan");
     playSound(sfxSuccess);
   } catch (e) {
     showToast(translations[currentLang].scan_error, "error");
@@ -2345,6 +2355,7 @@ async function executeSearch() {
   } catch (error) {
     resultList.innerHTML = "<p>Error koneksi.</p>";
   }
+  updateQuestProgress("search");
 }
 
 function selectSearchResult(index) {
@@ -3892,6 +3903,293 @@ function drawOmikuji() {
     btn.innerText = "Coba Lagi";
   }, 1500);
 }
+
+const questTemplates = [
+  {
+    type: "search",
+    title: "Pencari",
+    action: "Cari",
+    suffix: "Anime",
+    min: 3,
+    max: 15,
+    rewards: ["Tiket Gacha x1", "Tiket Gacha x2", "Gelar: Explorer"],
+  },
+  {
+    type: "favorite",
+    title: "Kolektor",
+    action: "Favoritkan",
+    suffix: "Anime",
+    min: 2,
+    max: 8,
+    rewards: ["Tiket Gacha x1", "Gelar: Sultan Waifu"],
+  },
+  {
+    type: "view_detail",
+    title: "Pengamat",
+    action: "Lihat Detail",
+    suffix: "Anime",
+    min: 5,
+    max: 20,
+    rewards: ["Tiket Gacha x3", "Gelar: Analis"],
+  },
+  // Misi Sekali Jalan (Target selalu 1)
+  {
+    type: "scan",
+    fixedTitle: "Detektif Gambar",
+    fixedDesc: "Gunakan Scan Gambar 1x",
+    target: 1,
+    reward: "Gelar: Intel",
+  },
+  {
+    type: "voice",
+    fixedTitle: "Perintah Suara",
+    fixedDesc: "Coba fitur Voice 1x",
+    target: 1,
+    reward: "Tiket Gacha x1",
+  },
+  {
+    type: "change_theme",
+    fixedTitle: "Ganti Suasana",
+    fixedDesc: "Ganti Tema Warna 1x",
+    target: 1,
+    reward: "Gelar: Seniman",
+  },
+  {
+    type: "view_history",
+    fixedTitle: "Nostalgia",
+    fixedDesc: "Buka Riwayat 1x",
+    target: 1,
+    reward: "Tiket Gacha x1",
+  },
+];
+
+// 2. Variabel Global Quest
+let activeQuests = [];
+let userQuestProgress = JSON.parse(localStorage.getItem("questProgress")) || {};
+
+// 3. Fungsi Generator Misi (Dijalankan tiap hari baru)
+function generateDailyQuests() {
+  const newQuests = [];
+  // Random jumlah misi per hari (antara 2 sampai 5 misi)
+  const totalQuests = Math.floor(Math.random() * 4) + 2;
+
+  for (let i = 0; i < totalQuests; i++) {
+    // Ambil template acak
+    const template =
+      questTemplates[Math.floor(Math.random() * questTemplates.length)];
+    let quest = {};
+
+    if (template.min) {
+      // Tipe Misi Angka Random (Search/Fav/Detail)
+      const target =
+        Math.floor(Math.random() * (template.max - template.min + 1)) +
+        template.min;
+      const randomReward =
+        template.rewards[Math.floor(Math.random() * template.rewards.length)];
+
+      quest = {
+        id: `daily_${Date.now()}_${i}`, // ID Unik
+        type: template.type,
+        title: `${template.title} (${target})`,
+        desc: `${template.action} ${target} ${template.suffix} hari ini`,
+        target: target,
+        reward: randomReward,
+      };
+    } else {
+      // Tipe Misi Tetap (Scan/Voice)
+      quest = {
+        id: `daily_${Date.now()}_${i}`,
+        type: template.type,
+        title: template.fixedTitle,
+        desc: template.fixedDesc,
+        target: 1,
+        reward: template.reward,
+      };
+    }
+    newQuests.push(quest);
+  }
+  return newQuests;
+}
+
+// 4. Cek Hari & Load Misi
+function checkDailyReset() {
+  const today = new Date().toDateString(); // Contoh: "Mon Dec 02 2025"
+  const lastDate = localStorage.getItem("questDate");
+
+  if (lastDate !== today) {
+    // --- HARI BARU: RESET MISI! ---
+    console.log("Resetting Daily Quests...");
+    activeQuests = generateDailyQuests();
+
+    // Simpan Misi Baru & Tanggal
+    localStorage.setItem("dailyQuests", JSON.stringify(activeQuests));
+    localStorage.setItem("questDate", today);
+
+    // Reset Progress Harian
+    userQuestProgress = {};
+    localStorage.setItem("questProgress", JSON.stringify(userQuestProgress));
+
+    showToast("Misi Harian Baru Telah Tersedia!", "info");
+  } else {
+    // --- HARI SAMA: LOAD MISI LAMA ---
+    activeQuests = JSON.parse(localStorage.getItem("dailyQuests")) || [];
+    // Fallback kalau kosong
+    if (activeQuests.length === 0) {
+      activeQuests = generateDailyQuests();
+      localStorage.setItem("dailyQuests", JSON.stringify(activeQuests));
+    }
+  }
+}
+
+// Jalankan pengecekan saat web dibuka
+checkDailyReset();
+
+// 5. Render Tampilan Quest (Diupdate agar baca 'activeQuests')
+function renderQuests() {
+  const list = document.getElementById("questList");
+  if (!list) return;
+
+  if (activeQuests.length === 0) {
+    list.innerHTML =
+      "<p style='text-align:center; color:#777;'>Tidak ada misi hari ini.</p>";
+    return;
+  }
+
+  list.innerHTML = activeQuests
+    .map((q) => {
+      const current = userQuestProgress[q.id] || 0;
+      const progress = Math.min((current / q.target) * 100, 100);
+      const isDone = current >= q.target;
+      const isClaimed = userQuestProgress[q.id + "_claimed"];
+
+      let actionBtn = "";
+      if (isDone && !isClaimed) {
+        actionBtn = `<button class="btn-claim-quest" onclick="claimReward('${q.id}')">KLAIM HADIAH</button>`;
+      } else if (isClaimed) {
+        actionBtn = `<div style="margin-top:10px; color:#2ecc71; font-weight:bold; text-align:center; font-size:0.8rem;">Selesai</div>`;
+      }
+
+      return `
+        <div class="quest-card ${isDone ? "completed" : ""}">
+            <div class="quest-header">
+                <span class="quest-title">${q.title}</span>
+                <span class="quest-reward">${q.reward}</span>
+            </div>
+            <div style="font-size:0.85rem; color:#ccc;">${q.desc}</div>
+            
+            <div class="progress-track">
+                <div class="progress-fill" style="width: ${progress}%"></div>
+            </div>
+            <div class="quest-status">${Math.min(current, q.target)} / ${
+        q.target
+      }</div>
+            
+            ${actionBtn}
+        </div>
+        `;
+    })
+    .join("");
+}
+
+// 6. Update Progress (Logic Baru)
+function updateQuestProgress(type, amount = 1) {
+  let changed = false;
+
+  // Loop hanya ke misi yang aktif hari ini
+  activeQuests.forEach((q) => {
+    if (q.type === type) {
+      const current = userQuestProgress[q.id] || 0;
+      // Hanya update kalau belum selesai
+      if (current < q.target) {
+        userQuestProgress[q.id] = current + amount;
+        changed = true;
+
+        if (userQuestProgress[q.id] >= q.target) {
+          showToast(`Misi Selesai: ${q.title}`, "success");
+          playSound(sfxSuccess);
+        }
+      }
+    }
+  });
+
+  if (changed) {
+    localStorage.setItem("questProgress", JSON.stringify(userQuestProgress));
+    // Jika sedang buka halaman quest, refresh langsung
+    if (document.getElementById("questView").style.display === "block") {
+      renderQuests();
+    }
+  }
+}
+
+// 7. Klaim Hadiah
+function claimReward(questId) {
+  playSound(sfxSuccess);
+  userQuestProgress[questId + "_claimed"] = true;
+  localStorage.setItem("questProgress", JSON.stringify(userQuestProgress));
+
+  const quest = activeQuests.find((q) => q.id === questId);
+
+  // Contoh: Update Title User (Simpel)
+  if (quest && quest.reward.includes("Gelar")) {
+    const newTitle = quest.reward.replace("Gelar: ", "");
+    localStorage.setItem("userTitle", newTitle);
+    if (document.getElementById("wibuLevel"))
+      document.getElementById("wibuLevel").innerText = newTitle;
+  }
+
+  renderQuests();
+  showToast(`Hadiah diklaim: ${quest.reward}`, "success");
+}
+
+// Fungsi Pembantu untuk Navigasi Quest
+function openQuest() {
+  playSound(sfxClick);
+  hideAllViews();
+  document.getElementById("questView").style.display = "block";
+  if (btnProfile) btnProfile.style.display = "none";
+  checkDailyReset(); // Cek ulang barangkali hari berganti saat web dibuka lama
+  renderQuests();
+}
+
+function closeQuest() {
+  playSound(sfxClick);
+  document.getElementById("questView").style.display = "none";
+  homeView.style.display = "block";
+  if (btnProfile) btnProfile.style.display = "flex";
+}
+
+function startQuestTimer() {
+  const timerEl = document.getElementById("timerText");
+  if (!timerEl) return;
+
+  function update() {
+    const now = new Date();
+    // Target: Jam 00:00:00 Besok
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    const diff = tomorrow - now; // Selisih waktu dalam milidetik
+
+    // Hitung Jam, Menit, Detik
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    // Format 2 digit (01, 05, 12)
+    const hStr = h < 10 ? "0" + h : h;
+    const mStr = m < 10 ? "0" + m : m;
+    const sStr = s < 10 ? "0" + s : s;
+
+    timerEl.innerText = `${hStr}j ${mStr}m ${sStr}d`;
+  }
+
+  update(); // Jalan pertama kali
+  setInterval(update, 1000); // Update tiap detik
+}
+
+// Panggil timer saat web diload
+startQuestTimer();
 
 // Start
 renderQuickTags();
